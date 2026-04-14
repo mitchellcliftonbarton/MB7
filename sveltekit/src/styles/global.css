@@ -1,0 +1,61 @@
+@import 'tailwindcss';
+
+@font-face {
+	font-family: 'OpenInto Mono';
+	src: url('/OpenintoMonoTest-400Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'OpenInto Mono';
+	src: url('/OpenintoMonoTest-400RegularItalic.woff2') format('woff2');
+	font-weight: 400;
+	font-style: italic;
+}
+
+@theme {
+	--text-sm: 1.4rem;
+	--text-base: 1.75rem;
+
+	--color-black: #000000;
+	--color-white: #ffffff;
+	--color-blue: #0000ff;
+	--color-green: #00bb44;
+	--color-yellow: #fffb00;
+	--color-yellow-alt: #f6ff7b;
+	--color-red: #ff0000;
+
+	--spacing-base: 1.5rem;
+
+  --font-primary: 'OpenInto Mono', monospace;
+}
+
+html {
+	font-size: 10px;
+  font-family: var(--font-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+	font-size: var(--text-base);
+	line-height: 1.1;
+}
+
+.bg-grid {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	justify-content: space-between;
+	pointer-events: none;
+}
+
+.bg-grid > div {
+	width: var(--spacing-base);
+	height: 100%;
+	background-color: rgba(255, 41, 45, 0.1);
+}
+
+.grid-item {
+	background-color: rgba(255, 41, 45, 0.1);
+}
