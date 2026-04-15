@@ -22,9 +22,15 @@
 	--color-white: #ffffff;
 	--color-blue: #0000ff;
 	--color-green: #00bb44;
+	--color-green-alt: #ADFF87;
 	--color-yellow: #fffb00;
 	--color-yellow-alt: #f6ff7b;
 	--color-red: #ff0000;
+	--color-grey-1: #E6E6E6;
+
+	/* --color-grid-bg: rgba(64, 255, 0, 0.1); */
+	--color-grid-bg: rgba(255, 41, 45, 0.1);
+	--color-grid-bg-alt: rgba(94, 66, 197, 0.3);
 
 	--spacing-base: 1.5rem;
 
@@ -40,6 +46,17 @@ html {
 body {
 	font-size: var(--text-base);
 	line-height: 1.1;
+	overflow-x: hidden;
+}
+
+button {
+	cursor: pointer;
+}
+
+input {
+	outline: none;
+	border: none;
+	box-shadow: none;
 }
 
 .bg-grid {
@@ -53,9 +70,9 @@ body {
 .bg-grid > div {
 	width: var(--spacing-base);
 	height: 100%;
-	background-color: rgba(255, 41, 45, 0.1);
+	background-color: var(--color-grid-bg);
 }
 
 .grid-item {
-	background-color: rgba(255, 41, 45, 0.1);
+	background-color: var(--color-grid-bg);
 }

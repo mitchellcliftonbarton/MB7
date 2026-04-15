@@ -1,12 +1,13 @@
 <script>
 	import '../styles/global.css';
-	import favicon from '$lib/assets/favicon.svg';
 	import MainNav from '$lib/components/MainNav.svelte';
 
 	let { children } = $props();
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+	<title>Mitchell Barton</title>
+</svelte:head>
 
 <MainNav />
 
