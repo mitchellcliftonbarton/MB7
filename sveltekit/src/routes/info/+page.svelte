@@ -1,14 +1,4 @@
-<section>
-  <div class="grid grid-cols-12 gap-base px-base">
-    <div class="col-span-2 col-start-2">
-      <p>Information</p>
-    </div>
-  </div>
-
-  <div class="h-base grid-item"></div>
-</section>
-
-<section class="mt-[100px]">
+<section class="main-content relative pt-[100px] flex-1">
   <div class="grid grid-cols-12 gap-base px-base">
     <div class="col-span-5 col-start-2">
       <a href="mailto:mitchellcliftonbarton@gmail.com">mitchellcliftonbarton@gmail.com</a>
@@ -103,5 +93,29 @@
     </div>
   </div>
 
-  <div class="h-base grid-item"></div>
+  <div class="mt-[100px] h-base grid-item"></div>
 </section>
+
+<style>
+  .main-content {
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--spacing-base);
+      height: 100%;
+      background-color: var(--color-grid-bg-alt);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: var(--spacing-base);
+      height: 100%;
+      background-color: var(--color-grid-bg-alt);
+    }
+  }
+</style>

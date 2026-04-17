@@ -11,7 +11,7 @@
 
 <MainNav />
 
-<main>
+<main class="flex-1 flex flex-col">
 	{@render children()}
 </main>
 

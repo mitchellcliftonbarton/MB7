@@ -3,7 +3,7 @@
 	import ArrowRight from '$lib/components/ArrowRight.svelte';
 </script>
 
-<header>
+<header class="flex-none">
 	<div class="grid-item h-base w-full"></div>
 
 	<div class="leading-text-base grid grid-cols-12 gap-base px-base">
@@ -25,7 +25,7 @@
 
 		<div class="col-span-5">
 			<p>
-				Today is: <span class="text-green">Apr 7, 2026</span>. 23 days since I made art.
+				Today is: <span class="text-green">Apr 7, 2026</span>. __ days since I made art.
 			</p>
 		</div>
 
@@ -44,7 +44,9 @@
 
 			<div class="email-signup col-span-3 relative">
 				<p class="absolute -translate-y-full">Subscribe w/</p>
-				<form action="" class="w-full h-full relative">
+				<p class="invisible">Email Address</p>
+
+				<form action="" class="w-full h-full absolute inset-0">
 					<input type="text" placeholder="Email Address" class="w-full">
 
 					<button type="submit" class="absolute right-0 top-[50%] translate-y-[-50%] text-black">
@@ -63,6 +65,9 @@
 		background-color: var(--color-green-alt);
 
 		input {
+			line-height: 1;
+			transform: translateY(-0.21em);
+
 			&::placeholder {
 				color: var(--color-black);
 			}
