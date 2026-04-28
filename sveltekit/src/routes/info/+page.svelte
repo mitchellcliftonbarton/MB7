@@ -27,7 +27,7 @@
     <div class="col-span-5 col-start-2">
       <ul class="list-disc list-inside leading-[1.3]">
         <li>
-          “Razorbacks” — an exhibition at the Utah Museum of Contemporaty Art
+          “Razorbacks” — an exhibition at the Utah Museum of Contemporary Art
         </li>
 
         <li>
@@ -59,9 +59,9 @@
 
   <div class="hidden h-base grid-item"></div>
 
-  <div class="grid grid-cols-12 gap-base px-base">
+  <div class="grid grid-cols-12 gap-base px-base mt-16">
     <div class="col-span-5 col-start-2 leading-[1.3]">
-      <p>More:</p>
+      <p>Links:</p>
     </div>
   </div>
 
@@ -71,15 +71,19 @@
     <div class="col-span-5 col-start-2">
       <ul class="list-disc list-inside leading-[1.3]">
         <li>
-          Instagram
+          <a href="https://www.instagram.com/mitchellcliftonbarton/" target="_blank">Instagram</a>
         </li>
 
         <li>
-          Cold Rice LLC
+          <a href="https://cold-rice.info" target="_blank">Cold Rice LLC</a>
         </li>
 
         <li>
-          Washer / Dryer Projects
+          <a href="https://www.washer-dryer-projects.com/" target="_blank">Washer / Dryer Projects</a>
+        </li>
+
+        <li>
+          <a href="https://artspeak-ipsum.com/" target="_blank">Artspeak Ipsum</a>
         </li>
       </ul>
     </div>
@@ -89,11 +93,11 @@
 
   <div class="grid grid-cols-12 gap-base px-base">
     <div class="col-span-5 col-start-2 leading-[1.3]">
-      <p>This site uses Open Into Mono, a typeface made by Furniture.</p>
+      <p>This site uses Open Into Mono, a typeface made by <a href="https://furniture.xyz" target="_blank">Furniture.</a></p>
     </div>
   </div>
 
-  <div class="mt-[100px] h-base grid-item"></div>
+  <div class="mt-[100px] h-base grid-item hidden"></div>
 </section>
 
 <style>

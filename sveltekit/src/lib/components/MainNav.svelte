@@ -1,18 +1,19 @@
 <script>
 	import { page } from '$app/state';
 	import ArrowRight from '$lib/components/ArrowRight.svelte';
+
+	// get todays date, and format it as April 20, 2026
+	const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 </script>
 
 <header class="flex-none">
+	<!-- <a href="/" class={`fixed top-base left-base z-[5000] ${page.url.pathname === '/' ? 'text-blue' : ''}`}>Mitchell Barton</a> -->
+
 	<div class="grid-item h-base w-full"></div>
 
 	<div class="leading-text-base grid grid-cols-12 gap-base px-base">
 		<div class="col-span-2">
 			<a href="/" class={page.url.pathname === '/' ? 'text-blue' : ''}>Mitchell Barton</a>
-		</div>
-
-		<div class="col-span-1">
-			<a href="/work" class={page.url.pathname === '/work' ? 'text-blue' : ''}>All Work</a>
 		</div>
 
 		<div class="col-span-1">
@@ -23,9 +24,9 @@
 			<a href="/info" class={page.url.pathname === '/info' ? 'text-blue' : ''}>Info</a>
 		</div>
 
-		<div class="col-span-5">
+		<div class="col-span-5 col-start-6">
 			<p>
-				Today is: <span class="text-green">Apr 7, 2026</span>. __ days since I made art.
+				Today is: <span class="text-green">{today}</span>. __ days since I made art.
 			</p>
 		</div>
 
@@ -56,7 +57,7 @@
 			</div>
     </div>
 
-    <div class="grid-item h-base w-full"></div>
+    <!-- <div class="grid-item h-base w-full"></div> -->
   {/if}
 </header>
 

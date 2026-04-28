@@ -1,6 +1,7 @@
 <script>
 	import '../styles/global.css';
 	import MainNav from '$lib/components/MainNav.svelte';
+	import MainFooter from '$lib/components/MainFooter.svelte';
 
 	let { children } = $props();
 </script>
@@ -14,6 +15,8 @@
 <main class="flex-1 flex flex-col">
 	{@render children()}
 </main>
+
+<MainFooter />
 
 <div class="bg-grid">
 	<div></div>

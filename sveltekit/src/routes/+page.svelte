@@ -1,15 +1,19 @@
 <script>
-  // get view from query params
-  let view = $state(new URLSearchParams(window.location.search).get('view') || 'month');
+  import { page } from '$app/stores';
+  import Month from '$lib/components/Month.svelte';
+
+  let view = $derived($page.url.searchParams.get('view') || 'month');
 </script>
 
-<section>
+<section class="page-header">
+  <div class="h-base grid-item"></div>
+
   <div class="grid grid-cols-12 gap-base px-base">
-    <div class="col-span-2 col-start-2">
+    <div class="col-span-6 col-start-2 bg-white">
       <p>Featured work:</p>
     </div>
 
-    <div class="lately col-span-5 col-start-8 flex items-center gap-4">
+    <div class="lately col-span-5 flex items-center gap-4 bg-white">
       <p>Lately:</p>
       
       <div class="flex gap-6">
@@ -36,38 +40,94 @@
       </div>
 
       <div class="h-base grid-item"></div>
+
+      <div class="relative z-1 py-20 flex justify-center items-center">
+        <figure class="aspect-[4/5] w-[45%] bg-grey-1"></figure>
+      </div>
+
+      <div class="h-base grid-item"></div>
+
+      <div class="relative z-1 py-20 flex justify-center items-center">
+        <figure class="aspect-[4/5] w-[45%] bg-grey-1"></figure>
+      </div>
+
+      <div class="h-base grid-item"></div>
+
+      <div class="relative z-1 py-20 flex justify-center items-center">
+        <figure class="aspect-[4/5] w-[45%] bg-grey-1"></figure>
+      </div>
+
+      <div class="h-base grid-item"></div>
+
+      <div class="relative z-1 py-20 flex justify-center items-center">
+        <figure class="aspect-[4/5] w-[45%] bg-grey-1"></figure>
+      </div>
+
+      <div class="h-base grid-item"></div>
+
+      <div class="relative z-1 py-20 flex justify-center items-center">
+        <figure class="aspect-[4/5] w-[45%] bg-grey-1"></figure>
+      </div>
+
+      <div class="h-base grid-item"></div>
     </div>
 
     <div class="col-span-4 flex flex-col justify-end">
-      <div class="calendar-inner">
-        <div class="flex flex-col items-center gap-20 pb-28">
-          <p>March 12, 2026</p>
-
-          <figure class="aspect-[4/5] w-[60%] bg-grey-1 relative z-1"></figure>
+      {#if view === 'month'}
+        <div class="calendar-inner">
+          <Month />
+          <div class="h-base grid-item"></div>
+          <Month />
+          <div class="h-base grid-item"></div>
+          <Month />
+          <div class="h-base grid-item"></div>
+          <Month />
+          <div class="h-base grid-item"></div>
+          <Month />
+          <div class="h-base grid-item"></div>
+          <Month />
+          <div class="h-base grid-item"></div>
+          <a href="/calendar" class="text-center block bg-yellow relative z-1">View Full Calendar</a>
+          <div class="h-base grid-item"></div>
         </div>
+      {:else if view === 'list'}
+        <div class="calendar-inner">
+          <div class="flex flex-col items-center gap-20 pb-28">
+            <p>March 12, 2026</p>
 
-        <div class="h-base grid-item"></div>
+            <figure class="aspect-[4/5] w-[60%] bg-grey-1 relative z-1"></figure>
+          </div>
 
-        <div class="flex flex-col items-center gap-20 pb-28">
-          <p>March 10, 2026</p>
+          <div class="h-base grid-item"></div>
 
-          <figure class="aspect-[4/5] w-[60%] bg-grey-1 relative z-1"></figure>
+          <div class="flex flex-col items-center gap-20 pb-28">
+            <p>March 10, 2026</p>
+
+            <figure class="aspect-[4/5] w-[60%] bg-grey-1 relative z-1"></figure>
+          </div>
+
+          <div class="h-base grid-item"></div>
+
+          <a href="/calendar" class="text-center block bg-yellow relative z-1">View Full Calendar</a>
+
+          <div class="h-base grid-item"></div>
         </div>
-
-        <div class="h-base grid-item"></div>
-
-        <a href="/calendar" class="text-center block bg-yellow relative z-1">View Full Calendar</a>
-
-        <div class="h-base grid-item"></div>
-      </div>
+      {/if}
     </div>
   </div>
 </section>
 
 <style>
+  .page-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
   .calendar-inner {
     position: sticky;
     bottom: 0;
+    z-index: 10;
   }
 
   .main-content {
