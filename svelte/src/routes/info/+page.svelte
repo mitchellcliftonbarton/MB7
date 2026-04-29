@@ -101,7 +101,7 @@
 </section>
 
 <style>
-  .main-content {
+  /* .main-content {
     &::before {
       content: '';
       position: absolute;
@@ -121,5 +121,5 @@
       height: 100%;
       background-color: var(--color-grid-bg-alt);
     }
-  }
+  } */
 </style>

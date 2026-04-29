@@ -11,6 +11,15 @@
 
   // derived
   let view = $derived($page.url.searchParams.get('view') || 'month');
+
+  // last six months
+  const lastSixMonths = (() => {
+    const now = new Date();
+    return Array.from({ length: 6 }, (_, i) => {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      return { year: d.getFullYear(), month: d.getMonth() };
+    });
+  })();
 </script>
 
 <section class="page-header">
@@ -83,18 +92,10 @@
     <div class="col-span-4 flex flex-col justify-end">
       {#if view === 'month'}
         <div class="calendar-inner">
-          <Month />
-          <div class="h-base grid-item"></div>
-          <Month />
-          <div class="h-base grid-item"></div>
-          <Month />
-          <div class="h-base grid-item"></div>
-          <Month />
-          <div class="h-base grid-item"></div>
-          <Month />
-          <div class="h-base grid-item"></div>
-          <Month />
-          <div class="h-base grid-item"></div>
+          {#each lastSixMonths as { year, month }}
+            <Month {year} {month} entries={homeData} />
+            <div class="h-base grid-item"></div>
+          {/each}
           <a href="/calendar" class="text-center block bg-yellow relative z-1">View Full Calendar</a>
           <div class="h-base grid-item"></div>
         </div>
@@ -138,7 +139,7 @@
     z-index: 10;
   }
 
-  .main-content {
+  /* .main-content {
     &::before {
       content: '';
       position: absolute;
@@ -171,7 +172,7 @@
         transform: translateX(100%);
       }
     }
-  }
+  } */
 
   .lately {
     a {
