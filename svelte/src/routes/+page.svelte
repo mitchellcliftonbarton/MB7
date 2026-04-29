@@ -1,7 +1,15 @@
 <script>
+  // imports
   import { page } from '$app/stores';
   import Month from '$lib/components/Month.svelte';
 
+  // props
+  let { data } = $props();
+
+  // data
+  let homeData = $derived(data.homeData);
+
+  // derived
   let view = $derived($page.url.searchParams.get('view') || 'month');
 </script>
 
