@@ -2,6 +2,7 @@
   // imports
   import { page } from '$app/stores';
   import Month from '$lib/components/Month.svelte';
+  import CalendarListItem from '$lib/components/CalendarListItem.svelte';
 
   // props
   let { data } = $props();
@@ -101,25 +102,10 @@
         </div>
       {:else if view === 'list'}
         <div class="calendar-inner">
-          <div class="flex flex-col items-center gap-20 pb-28">
-            <p>March 12, 2026</p>
-
-            <figure class="aspect-[4/5] w-[60%] bg-grey-1 relative z-1"></figure>
-          </div>
-
-          <div class="h-base grid-item"></div>
-
-          <div class="flex flex-col items-center gap-20 pb-28">
-            <p>March 10, 2026</p>
-
-            <figure class="aspect-[4/5] w-[60%] bg-grey-1 relative z-1"></figure>
-          </div>
-
-          <div class="h-base grid-item"></div>
-
-          <a href="/calendar" class="text-center block bg-yellow relative z-1">View Full Calendar</a>
-
-          <div class="h-base grid-item"></div>
+          {#each homeData as entry}
+            <CalendarListItem {entry} />
+            <div class="h-base grid-item"></div>
+          {/each}
         </div>
       {/if}
     </div>
