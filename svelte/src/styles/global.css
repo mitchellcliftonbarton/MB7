@@ -77,3 +77,16 @@ input {
 .grid-item {
 	background-color: var(--color-grid-bg);
 }
+
+/*
+Lazy Load
+*/
+
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.2s;
+
+  &.loaded {
+    opacity: 1;
+  }
+}

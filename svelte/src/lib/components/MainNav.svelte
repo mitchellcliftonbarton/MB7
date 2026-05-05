@@ -26,7 +26,7 @@
 
 		<div class="col-span-5 col-start-6">
 			<p>
-				Today is: <span class="text-green">{today}</span>. __ days since I made art.
+				Today is: <span class="text-green">{today}</span>. <span class="day-count"></span> days since I made art.
 			</p>
 		</div>
 

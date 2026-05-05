@@ -6,7 +6,17 @@ export const load = async () => {
 	const cutoff = sixMonthsAgo.toISOString().slice(0, 10);
 
 	const homeData = await client.fetch(
-		`*[_type == "calendarEntry" && date >= $cutoff] | order(date desc)`,
+		`*[_type == "calendarEntry" && date >= $cutoff] | order(date desc) {
+			_id,
+			date,
+			text,
+			media[]{
+				mediaType,
+				caption,
+				url,
+				asset->{ ..., metadata }
+			}
+		}`,
 		{ cutoff }
 	);
 

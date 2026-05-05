@@ -91,23 +91,22 @@
     </div>
 
     <div class="col-span-4 flex flex-col justify-end">
-      {#if view === 'month'}
-        <div class="calendar-inner">
+      <div class="calendar-inner">
+        {#if view === 'month'}
           {#each lastSixMonths as { year, month }}
             <Month {year} {month} entries={homeData} />
             <div class="h-base grid-item"></div>
           {/each}
-          <a href="/calendar" class="text-center block bg-yellow relative z-1">View Full Calendar</a>
-          <div class="h-base grid-item"></div>
-        </div>
-      {:else if view === 'list'}
-        <div class="calendar-inner">
+        {:else if view === 'list'}
           {#each homeData as entry}
             <CalendarListItem {entry} />
             <div class="h-base grid-item"></div>
           {/each}
-        </div>
-      {/if}
+        {/if}
+
+        <a href="/calendar" class="text-center block bg-yellow relative z-1">View Full Calendar</a>
+        <div class="h-base grid-item"></div>
+      </div>
     </div>
   </div>
 </section>

@@ -1,21 +1,20 @@
 <script>
-  // imports
-  import { urlFor } from '$lib/sanity/client';
+  import { urlFor } from '$lib/sanity/client.js';
 
-  // props
-  let { imageUrl, alt, classes, width = 2600 } = $props();
+  let { item, fetchWidth = 1800, classes } = $props();
 
-  // build src from sanity image url builder
-  const src = $derived(urlFor(imageUrl).width(width).url());
+  const dimensions = $derived(item?.asset?.metadata?.dimensions);
+  const src = $derived(urlFor(item.asset).width(fetchWidth).url());
 
-  // track load state to add 'loaded' class when image is ready
   let loaded = $state(false);
   const classList = $derived([classes, loaded ? 'loaded' : ''].filter(Boolean).join(' '));
 </script>
 
 <img
   {src}
-  {alt}
+  alt={item.caption || ''}
+  width={dimensions?.width}
+  height={dimensions?.height}
   class={classList}
   loading="lazy"
   onload={() => { loaded = true; }}
