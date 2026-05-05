@@ -8,7 +8,9 @@
   let { data } = $props();
 
   // data
-  let homeData = $derived(data.homeData);
+  let homeData = $derived(
+    data.homeData.filter(e => e.text || e.media?.length)
+  );
 
   // derived
   let view = $derived($page.url.searchParams.get('view') || 'month');

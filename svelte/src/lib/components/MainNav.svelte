@@ -4,6 +4,13 @@
 
 	// get todays date, and format it as April 20, 2026
 	const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+	// get the number of days since the latest entry
+	const daysSinceLatest = $derived(
+		page.data.latestEntryDate
+			? Math.floor((Date.now() - new Date(page.data.latestEntryDate).getTime()) / (1000 * 60 * 60 * 24))
+			: null
+	);
 </script>
 
 <header class="flex-none">
@@ -26,7 +33,7 @@
 
 		<div class="col-span-5 col-start-6">
 			<p>
-				Today is: <span class="text-green">{today}</span>. <span class="day-count"></span> days since I made art.
+				Today is: <span class="text-green">{today}</span>. <span class="day-count">{daysSinceLatest ?? '?'}</span> days since I made art.
 			</p>
 		</div>
 
