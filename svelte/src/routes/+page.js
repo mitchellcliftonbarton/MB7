@@ -5,29 +5,39 @@ export const load = async () => {
 	sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 	const cutoff = sixMonthsAgo.toISOString().slice(0, 10);
 
-	const homeData = await client.fetch(
-		`*[_type == "calendarEntry" && date >= $cutoff] | order(date desc) {
-			_id,
-			date,
-			text,
-			media[]{
-				mediaType,
+	const [homeData, featuredWork] = await Promise.all([
+		client.fetch(
+			`*[_type == "calendarEntry" && date >= $cutoff] | order(date desc) {
+				_id,
+				date,
+				text,
+				media[]{
+					mediaType,
+					caption,
+					url,
+					asset->{ ..., metadata }
+				}
+			}`,
+			{ cutoff }
+		),
+		client.fetch(
+			`*[_type == "homePage"][0].featuredWork[]{
 				caption,
-				url,
-				asset->{ ..., metadata }
-			}
-		}`,
-		{ cutoff }
-	);
+				media[]{
+					_type,
+					asset->{ ..., metadata },
+					"url": asset->url
+				}
+			}`
+		)
+	]);
 
-	// check if homeData was successfully fetched
 	if (!homeData) {
-		return {
-			error: 'Home data not found'
-		};
+		return { error: 'Home data not found' };
 	}
 
 	return {
-		homeData
+		homeData,
+		featuredWork: featuredWork ?? []
 	};
 };

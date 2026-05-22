@@ -101,8 +101,8 @@
 </section>
 
 <style>
-  /* .main-content {
-    &::before {
+  .main-content {
+    /* &::before {
       content: '';
       position: absolute;
       top: 0;
@@ -120,6 +120,6 @@
       width: var(--spacing-base);
       height: 100%;
       background-color: var(--color-grid-bg-alt);
-    }
-  } */
+    } */
+  }
 </style>

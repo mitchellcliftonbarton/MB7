@@ -11,6 +11,12 @@
 <div class="calendar-list-item relative z-1 pb-20">
   <p class="date">{format(parseISO(entry.date), 'MMMM d, yyyy')}</p>
 
+  {#if entry.text}
+    <div class="text rich-text w-3/4">
+      <Portable value={entry.text} />
+    </div>
+  {/if}
+
   {#if entry.media?.length}
     <div class="media space-y-12">
       {#each entry.media as item, i (i)}
@@ -27,12 +33,6 @@
           {/if}
         </figure>
       {/each}
-    </div>
-  {/if}
-
-  {#if entry.text}
-    <div class="text rich-text w-3/4">
-      <Portable value={entry.text} />
     </div>
   {/if}
 </div>

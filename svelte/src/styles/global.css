@@ -30,7 +30,8 @@
 	--color-grey-2: #E6E6E6;
 
 	/* --color-grid-bg: rgba(64, 255, 0, 0.1); */
-	--color-grid-bg: rgba(255, 41, 45, 0.1);
+	--color-grid-bg: rgba(85, 85, 85, 0.1);
+	/* --color-grid-bg: rgba(255, 41, 45, 0.1); */
 	--color-grid-bg-alt: rgba(94, 66, 197, 0.3);
 
 	--spacing-base: 1.5rem;

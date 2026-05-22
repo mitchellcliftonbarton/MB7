@@ -3,6 +3,7 @@
   import { page } from '$app/stores';
   import Month from '$lib/components/Month.svelte';
   import CalendarListItem from '$lib/components/CalendarListItem.svelte';
+  import FeaturedItem from '$lib/components/FeaturedItem.svelte';
 
   // props
   let { data } = $props();
@@ -11,6 +12,7 @@
   let homeData = $derived(
     data.homeData.filter(e => e.text || e.media?.length)
   );
+  let featuredWork = $derived(data.featuredWork);
 
   // derived
   let view = $derived($page.url.searchParams.get('view') || 'month');
@@ -49,47 +51,12 @@
 <section class="main-content relative">
   <div class="grid grid-cols-12 gap-base px-base">
     <div class="featured relative col-span-8">
-      <div class="relative z-1 py-20 flex justify-center items-center">
-        <figure class="aspect-[4/5] w-[45%] bg-grey-1"></figure>
+      <div class="featured-inner">
+        {#each featuredWork as item}
+          <FeaturedItem {item} />
+          <div class="h-base grid-item"></div>
+        {/each}
       </div>
-
-      <div class="h-base grid-item"></div>
-
-      <div class="relative z-1 py-20 flex justify-center items-center">
-        <figure class="aspect-[4/5] w-[45%] bg-grey-1"></figure>
-      </div>
-
-      <div class="h-base grid-item"></div>
-
-      <div class="relative z-1 py-20 flex justify-center items-center">
-        <figure class="aspect-[4/5] w-[45%] bg-grey-1"></figure>
-      </div>
-
-      <div class="h-base grid-item"></div>
-
-      <div class="relative z-1 py-20 flex justify-center items-center">
-        <figure class="aspect-[4/5] w-[45%] bg-grey-1"></figure>
-      </div>
-
-      <div class="h-base grid-item"></div>
-
-      <div class="relative z-1 py-20 flex justify-center items-center">
-        <figure class="aspect-[4/5] w-[45%] bg-grey-1"></figure>
-      </div>
-
-      <div class="h-base grid-item"></div>
-
-      <div class="relative z-1 py-20 flex justify-center items-center">
-        <figure class="aspect-[4/5] w-[45%] bg-grey-1"></figure>
-      </div>
-
-      <div class="h-base grid-item"></div>
-
-      <div class="relative z-1 py-20 flex justify-center items-center">
-        <figure class="aspect-[4/5] w-[45%] bg-grey-1"></figure>
-      </div>
-
-      <div class="h-base grid-item"></div>
     </div>
 
     <div class="col-span-4 flex flex-col justify-end">
@@ -120,14 +87,15 @@
     z-index: 1000;
   }
   
-  .calendar-inner {
+  .calendar-inner,
+  .featured-inner {
     position: sticky;
     bottom: 0;
     z-index: 10;
   }
 
-  /* .main-content {
-    &::before {
+  .main-content {
+    /* &::before {
       content: '';
       position: absolute;
       top: 0;
@@ -158,8 +126,8 @@
         background-color: var(--color-grid-bg-alt);
         transform: translateX(100%);
       }
-    }
-  } */
+    } */
+  }
 
   .lately {
     a {
