@@ -12,13 +12,14 @@
   // offset
   let offset = $derived(new Date(year, month, 1).getDay()); // 0=Sun … 6=Sat
 
-  // active days
-  let activeDays = $derived(new Set(
-    entries.flatMap(e => {
+  // active days — Map<dayNumber, category|null>
+  let activeDays = $derived(
+    entries.reduce((map, e) => {
       const [y, m, d] = e.date.split('-').map(Number);
-      return (y === year && m - 1 === month) ? [d] : [];
-    })
-  ));
+      if (y === year && m - 1 === month) map.set(d, e.category ?? null);
+      return map;
+    }, new Map())
+  );
 
   // today
   const now = new Date();
@@ -35,7 +36,8 @@
       <div></div>
     {/each}
     {#each { length: daysInMonth } as _, i}
-      <div class={[activeDays.has(i + 1) && 'active', year === todayYear && month === todayMonth && i + 1 === todayDay && 'current'].filter(Boolean).join(' ')}>
+      {@const cat = activeDays.get(i + 1)}
+      <div class={[cat !== undefined && 'active', cat, year === todayYear && month === todayMonth && i + 1 === todayDay && 'current'].filter(Boolean).join(' ')}>
         <p>{i + 1}</p>
       </div>
     {/each}
@@ -59,7 +61,21 @@
 
       &.active {
         & > p {
+          background-color: var(--color-yellow); /* fallback / uncategorised */
+        }
+
+        &.studio-log > p {
           background-color: var(--color-yellow);
+        }
+
+        &.notes > p {
+          background-color: var(--color-blue);
+          color: var(--color-white);
+        }
+
+        &.works > p {
+          background-color: var(--color-red);
+          color: var(--color-white);
         }
       }
 

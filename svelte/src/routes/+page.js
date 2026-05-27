@@ -10,6 +10,7 @@ export const load = async () => {
 			`*[_type == "calendarEntry" && date >= $cutoff] | order(date desc) {
 				_id,
 				date,
+				category,
 				text,
 				media[]{
 					mediaType,

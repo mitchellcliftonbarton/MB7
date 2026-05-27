@@ -6,6 +6,18 @@ export const calendarEntry = defineType({
   title: 'Calendar Entry',
   type: 'document',
   icon: CalendarIcon,
+  orderings: [
+    {
+      title: 'Date, New–Old',
+      name: 'dateDesc',
+      by: [{field: 'date', direction: 'desc'}],
+    },
+    {
+      title: 'Date, Old–New',
+      name: 'dateAsc',
+      by: [{field: 'date', direction: 'asc'}],
+    },
+  ],
   fields: [
     defineField({
       name: 'date',
@@ -13,6 +25,20 @@ export const calendarEntry = defineType({
       type: 'date',
       options: {dateFormat: 'MM-DD-YYYY'},
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      initialValue: 'studio-log',
+      options: {
+        list: [
+          {title: 'Studio Log', value: 'studio-log'},
+          {title: 'Notes', value: 'notes'},
+          {title: 'Works', value: 'works'},
+        ],
+        layout: 'radio',
+      },
     }),
     defineField({
       name: 'text',
@@ -43,11 +69,23 @@ export const calendarEntry = defineType({
   preview: {
     select: {
       title: 'date',
+      mediaAsset: 'media.0.asset',
+      text: 'text',
     },
-    prepare({title}) {
+    prepare({title, mediaAsset, text}: {title?: string; mediaAsset?: unknown; text?: Array<{_type: string; children?: Array<{_type: string; text?: string}>}>}) {
       if (!title) return {title: 'No date'}
       const [year, month, day] = title.split('-')
-      return {title: `${month}-${day}-${year}`}
+      const subtitle = text
+        ?.find((block) => block._type === 'block')
+        ?.children
+        ?.filter((child) => child._type === 'span')
+        ?.map((span) => span.text)
+        ?.join('')
+      return {
+        title: `${month}-${day}-${year}`,
+        subtitle,
+        media: mediaAsset,
+      }
     },
   },
 })

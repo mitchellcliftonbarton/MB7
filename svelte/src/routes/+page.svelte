@@ -31,11 +31,11 @@
   <div class="h-base grid-item"></div>
 
   <div class="grid grid-cols-12 gap-base px-base">
-    <div class="col-span-6 col-start-2 bg-white">
+    <div class="col-span-6 col-start-2">
       <p>Featured work:</p>
     </div>
 
-    <div class="lately col-span-5 flex items-center gap-4 bg-white">
+    <div class="lately col-span-5 flex items-center gap-4">
       <p>Lately:</p>
       
       <div class="flex gap-6">
@@ -50,7 +50,7 @@
 
 <section class="main-content relative">
   <div class="grid grid-cols-12 gap-base px-base">
-    <div class="featured relative col-span-8">
+    <div class="featured relative col-span-8 flex flex-col justify-end">
       <div class="featured-inner">
         {#each featuredWork as item}
           <FeaturedItem {item} />

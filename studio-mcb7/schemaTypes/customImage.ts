@@ -7,12 +7,6 @@ export const customImage = defineType({
   options: {hotspot: true},
   fields: [
     defineField({
-      name: 'alt',
-      title: 'Alt Text',
-      type: 'string',
-      validation: (Rule) => Rule.required().warning('Alt text is recommended for accessibility.'),
-    }),
-    defineField({
       name: 'caption',
       title: 'Caption',
       type: 'string',
