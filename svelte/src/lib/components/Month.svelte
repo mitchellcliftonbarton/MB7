@@ -12,11 +12,14 @@
   // offset
   let offset = $derived(new Date(year, month, 1).getDay()); // 0=Sun … 6=Sat
 
-  // active days — Map<dayNumber, category|null>
+  // active days — Map<dayNumber, Set<string>> (unique categories per day)
   let activeDays = $derived(
     entries.reduce((map, e) => {
       const [y, m, d] = e.date.split('-').map(Number);
-      if (y === year && m - 1 === month) map.set(d, e.category ?? null);
+      if (y === year && m - 1 === month) {
+        if (!map.has(d)) map.set(d, new Set());
+        map.get(d).add(e.category ?? 'studio-log');
+      }
       return map;
     }, new Map())
   );
@@ -26,6 +29,27 @@
   const todayYear = now.getFullYear();
   const todayMonth = now.getMonth();
   const todayDay = now.getDate();
+
+  const catColor = {
+    'studio-log': 'var(--color-yellow)',
+    'notes': 'var(--color-green-alt)',
+    'works': 'var(--color-red)',
+  };
+
+  function dayStyle(cats) {
+    const arr = [...cats];
+    if (arr.length === 1) {
+      return `background:${catColor[arr[0]] ?? 'var(--color-yellow)'}`;
+    }
+    const pct = 100 / arr.length;
+    const stops = arr.map((cat, i) => {
+      const color = catColor[cat] ?? 'var(--color-yellow)';
+      const a = +(i * pct).toFixed(3);
+      const b = +((i + 1) * pct).toFixed(3);
+      return i === 0 ? `${color} ${b}%` : `${color} ${a}% ${b}%`;
+    }).join(',');
+    return `background:conic-gradient(${stops})`;
+  }
 </script>
 
 <div class="bg-grey-1 border border-grey-2 rounded-[4rem] px-8 pt-12 pb-18 space-y-8">
@@ -36,9 +60,13 @@
       <div></div>
     {/each}
     {#each { length: daysInMonth } as _, i}
-      {@const cat = activeDays.get(i + 1)}
-      <div class={[cat !== undefined && 'active', cat, year === todayYear && month === todayMonth && i + 1 === todayDay && 'current'].filter(Boolean).join(' ')}>
-        <p>{i + 1}</p>
+      {@const cats = activeDays.get(i + 1)}
+      {@const catArr = cats ? [...cats] : []}
+      {@const isToday = year === todayYear && month === todayMonth && i + 1 === todayDay}
+      <div class="day-cell">
+        <div class="day" class:current={isToday}>
+          <p style={catArr.length && !isToday ? dayStyle(cats) : undefined}>{i + 1}</p>
+        </div>
       </div>
     {/each}
   </div>
@@ -46,46 +74,27 @@
 
 <style>
   .days {
-    & > div {
+    & > .day-cell {
       display: flex;
       justify-content: center;
+    }
+  }
 
-      & > p {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+  .day {
+    & > p {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-      &.active {
-        & > p {
-          background-color: var(--color-yellow); /* fallback / uncategorised */
-        }
-
-        &.studio-log > p {
-          background-color: var(--color-yellow);
-        }
-
-        &.notes > p {
-          background-color: var(--color-blue);
-          color: var(--color-white);
-        }
-
-        &.works > p {
-          background-color: var(--color-red);
-          color: var(--color-white);
-        }
-      }
-
-      &.current {
-        & > p {
-          background-color: var(--color-green);
-          color: var(--color-white);
-          border-radius: 0px;
-        }
-      }
+    &.current > p {
+      background-color: var(--color-green);
+      color: var(--color-white);
+      border-radius: 0px;
+      border: 2px solid white;
     }
   }
 </style>

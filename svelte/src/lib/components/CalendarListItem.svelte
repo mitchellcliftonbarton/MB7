@@ -77,7 +77,7 @@
 
     &.notes {
       &::before {
-        background-color: var(--color-blue);
+        background-color: var(--color-green-alt);
       }
     }
 
