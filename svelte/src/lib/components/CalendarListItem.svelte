@@ -1,9 +1,9 @@
 <script>
   import { urlFor } from '$lib/sanity/client.js';
-  import { parseISO } from 'date-fns';
-  import { format } from 'date-fns';
+  import { parseISO, format } from 'date-fns';
   import Image from '$lib/components/Image.svelte';
   import Portable from '$lib/components/Portable.svelte';
+  import ArrowRight from '$lib/components/ArrowRight.svelte';
 
   let { entry } = $props();
 
@@ -16,14 +16,21 @@
 
 <div class="calendar-list-item relative z-1 pb-20">
   <div class="entry-header">
-    <div class="flex gap-12">
-      <p class="date">{format(parseISO(entry.date), 'MMMM d, yyyy')}</p>
+    <div class="flex justify-between items-center">
+      <div class="flex gap-12">
+        <p class="date">{format(parseISO(entry.date), 'MMMM d, yyyy')}</p>
 
-      {#if entry.category}
-        <div class="categories">
-          <span class="category {entry.category}">{categoryLabels[entry.category]}</span>
-        </div>
-      {/if}
+        {#if entry.category}
+          <div class="categories">
+            <span class="category {entry.category}">{categoryLabels[entry.category]}</span>
+          </div>
+        {/if}
+      </div>
+
+      <a href="/calendar/{entry.date}" class="view-link flex items-center gap-4">
+        <span class="flex-none">View Entry</span> 
+        <ArrowRight />
+      </a>
     </div>
 
     {#if entry.text}
@@ -85,6 +92,12 @@
       &::before {
         background-color: var(--color-red);
       }
+    }
+  }
+
+  .view-link {
+    :global(svg) {
+      width: 1.7rem;
     }
   }
 </style>

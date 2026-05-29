@@ -15,6 +15,7 @@
   alt={item.caption || ''}
   width={dimensions?.width}
   height={dimensions?.height}
+  style={dimensions ? `aspect-ratio: ${dimensions.width} / ${dimensions.height}` : undefined}
   class={classList}
   loading="lazy"
   onload={() => { loaded = true; }}

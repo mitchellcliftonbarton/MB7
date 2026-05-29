@@ -17,25 +17,27 @@
 		</div>
 
 		<div class="col-span-1">
-			<a href="/calendar" class={page.url.pathname === '/calendar' ? 'text-blue' : ''}>Calendar</a>
+			<a href="/calendar" class={page.url.pathname === '/calendar' || page.url.pathname.startsWith('/calendar/') ? 'text-blue' : ''}>Calendar</a>
 		</div>
 
 		<div class="col-span-1">
 			<a href="/info" class={page.url.pathname === '/info' ? 'text-blue' : ''}>Info</a>
 		</div>
 
-		<div class="col-span-5 col-start-6">
+		<div class="col-span-2 col-start-6 flex justify-center">
 			<p>
 				Today is: <span class="text-green">{today}</span>
 			</p>
 		</div>
 
-		<div class="col-span-2 flex justify-end">
+		<div class="col-span-2 col-start-11 flex justify-end">
 			<button class="text-right">Controls/Search (⌘K)</button>
 		</div>
 	</div>
 
-	<div class="grid-item h-base w-full"></div>
+	{#if !page.url.pathname.startsWith('/calendar')}
+		<div class="grid-item h-base w-full"></div>
+	{/if}
 
   {#if page.url.pathname === '/'}
     <div class="relative z-1 px-base grid grid-cols-12 gap-base">
