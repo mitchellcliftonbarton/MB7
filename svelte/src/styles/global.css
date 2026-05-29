@@ -51,6 +51,15 @@ body {
 	font-size: var(--text-base);
 	line-height: 1.1;
 	overflow-x: hidden;
+
+	#nprogress .bar {
+		height: 2px;
+		background-color: var(--color-blue);
+
+		@media (min-width: 1024px) {
+			height: 2px;
+		}
+	}
 }
 
 button {

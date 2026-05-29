@@ -2,6 +2,14 @@
   <div class="col-span-5">
     <div class="grid grid-cols-5 gap-base">
       <div class="col-span-4 col-start-2">
+        <h2 class="text-blue">Information</h2>
+      </div>
+    </div>
+
+    <div class="h-base grid-item"></div>
+
+    <div class="grid grid-cols-5 gap-base">
+      <div class="col-span-4 col-start-2">
         <a href="mailto:mitchellcliftonbarton@gmail.com">mitchellcliftonbarton@gmail.com</a>
       </div>
     </div>
@@ -96,7 +104,7 @@
   <div class="col-span-7">
     <div class="grid grid-cols-7 gap-base">
       <div class="col-span-5 col-start-2">
-        <p>This site was launched on May 21, 2026.</p>
+        <h2 class="text-blue">Site Notes</h2>
       </div>
     </div>
 
@@ -104,7 +112,15 @@
 
     <div class="grid grid-cols-7 gap-base">
       <div class="col-span-5 col-start-2">
-        <p>This site uses Open Into Mono, a typeface made by <a href="https://furniture.xyz" target="_blank">Furniture.</a></p>
+        <p>This site was launched on May 21, 2026, and uses Open Into Mono, a typeface made by <a href="https://furniture.xyz" target="_blank">Furniture.</a></p>
+      </div>
+    </div>
+
+    <div class="h-base grid-item"></div>
+
+    <div class="grid grid-cols-7 gap-base">
+      <div class="col-span-5 col-start-2">
+        <p>The site is divided into two main sections: Works and Calendar.</p>
       </div>
     </div>
 

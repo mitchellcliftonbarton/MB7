@@ -1,4 +1,6 @@
 <script>
+  import DayCell from './DayCell.svelte';
+
   // month names
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
@@ -12,14 +14,19 @@
   // offset
   let offset = $derived(new Date(year, month, 1).getDay()); // 0=Sun … 6=Sat
 
-  // active days — Map<dayNumber, Set<string>> (unique categories per day)
+  // active days — Map<dayNumber, entry[]>
   let activeDays = $derived(
     entries.reduce((map, e) => {
+      // parse the date string into year, month, and day
       const [y, m, d] = e.date.split('-').map(Number);
+
+      // if the year and month match, add the entry to the map
       if (y === year && m - 1 === month) {
-        if (!map.has(d)) map.set(d, new Set());
-        map.get(d).add(e.category ?? 'studio-log');
+        if (!map.has(d)) map.set(d, []);
+        map.get(d).push(e);
       }
+
+      // return the map
       return map;
     }, new Map())
   );
@@ -30,25 +37,11 @@
   const todayMonth = now.getMonth();
   const todayDay = now.getDate();
 
-  const catColor = {
-    'studio-log': 'var(--color-yellow)',
-    'notes': 'var(--color-green-alt)',
-    'works': 'var(--color-red)',
-  };
-
-  function dayStyle(cats) {
-    const arr = [...cats];
-    if (arr.length === 1) {
-      return `background:${catColor[arr[0]] ?? 'var(--color-yellow)'}`;
-    }
-    const pct = 100 / arr.length;
-    const stops = arr.map((cat, i) => {
-      const color = catColor[cat] ?? 'var(--color-yellow)';
-      const a = +(i * pct).toFixed(3);
-      const b = +((i + 1) * pct).toFixed(3);
-      return i === 0 ? `${color} ${b}%` : `${color} ${a}% ${b}%`;
-    }).join(',');
-    return `background:conic-gradient(${stops})`;
+  // format the date string as YYYY-MM-DD. Only using date-fns for display formatting
+  function dateStr(day) {
+    const m = String(month + 1).padStart(2, '0');
+    const d = String(day).padStart(2, '0');
+    return `${year}-${m}-${d}`;
   }
 </script>
 
@@ -56,45 +49,18 @@
   <p class="text-center text-red">{monthNames[month]} {year}</p>
 
   <div class="days grid grid-cols-7 gap-x-4 gap-y-4">
+    <!-- empty cells to push day 1 into the correct weekday column -->
     {#each { length: offset } as _}
       <div></div>
     {/each}
+
     {#each { length: daysInMonth } as _, i}
-      {@const cats = activeDays.get(i + 1)}
-      {@const catArr = cats ? [...cats] : []}
-      {@const isToday = year === todayYear && month === todayMonth && i + 1 === todayDay}
-      <div class="day-cell">
-        <div class="day" class:current={isToday}>
-          <p style={catArr.length && !isToday ? dayStyle(cats) : undefined}>{i + 1}</p>
-        </div>
-      </div>
+      <DayCell
+        day={i + 1}
+        entries={activeDays.get(i + 1) ?? []}
+        isToday={year === todayYear && month === todayMonth && i + 1 === todayDay}
+        href="/calendar/{dateStr(i + 1)}"
+      />
     {/each}
   </div>
 </div>
-
-<style>
-  .days {
-    & > .day-cell {
-      display: flex;
-      justify-content: center;
-    }
-  }
-
-  .day {
-    & > p {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    &.current > p {
-      background-color: var(--color-green);
-      color: var(--color-white);
-      border-radius: 0px;
-      border: 2px solid white;
-    }
-  }
-</style>
