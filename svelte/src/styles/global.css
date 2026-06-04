@@ -16,7 +16,7 @@
 
 @theme {
 	--text-sm: 1.4rem;
-	--text-base: 1.75rem;
+	--text-base: 1.67rem;
 
 	--color-black: #000000;
 	--color-white: #ffffff;
@@ -32,7 +32,7 @@
 	--color-orange: #ff9b5d;
 
 	/* --color-grid-bg: rgba(64, 255, 0, 0.1); */
-	--color-grid-bg: rgba(85, 85, 85, 0.1);
+	--color-grid-bg: rgba(85, 85, 85, 0.08);
 	/* --color-grid-bg: rgba(255, 41, 45, 0.1); */
 	--color-grid-bg-alt: rgba(94, 66, 197, 0.3);
 
