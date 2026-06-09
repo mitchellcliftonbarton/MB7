@@ -2,7 +2,7 @@
   import DayTooltip from './DayTooltip.svelte';
 
   // props
-  let { day, entries = [], isToday = false, href } = $props();
+  let { day, entries = [], isToday = false, isFuture = false, href } = $props();
 
   // state
   let hovered = $state(false);
@@ -82,6 +82,7 @@
 <div
   class="day-cell"
   class:has-entries={entries.length > 0}
+  class:is-future={isFuture}
   role="presentation"
   bind:this={cellEl}
   onmouseenter={onEnter}
@@ -89,7 +90,7 @@
 >
   <div class="day" class:current={isToday}>
     {#if entries.length > 0}
-      <a {href} class="day-num" style={circleStyle()}>{day}</a>
+      <a {href} class="day-num" style={circleStyle()} data-sveltekit-noscroll>{day}</a>
       <DayTooltip {entries} visible={hovered} bind:el={tooltipEl} />
     {:else}
       <span class="day-num">{day}</span>
@@ -111,6 +112,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .day-cell.is-future {
+    opacity: 0.2;
   }
 
   .day.current .day-num {

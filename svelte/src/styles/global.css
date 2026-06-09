@@ -31,8 +31,8 @@
 	--color-pink: #ffaaaa;
 	--color-orange: #ff9b5d;
 
-	/* --color-grid-bg: rgba(64, 255, 0, 0.1); */
-	--color-grid-bg: rgba(85, 85, 85, 0.08);
+	--color-grid-bg: rgba(64, 255, 0, 0.1);
+	/* --color-grid-bg: rgba(85, 85, 85, 0.08); */
 	/* --color-grid-bg: rgba(255, 41, 45, 0.1); */
 	--color-grid-bg-alt: rgba(94, 66, 197, 0.3);
 
@@ -55,6 +55,7 @@ body {
 	#nprogress .bar {
 		height: 2px;
 		background-color: var(--color-blue);
+		z-index: 10000;
 
 		@media (min-width: 1024px) {
 			height: 2px;

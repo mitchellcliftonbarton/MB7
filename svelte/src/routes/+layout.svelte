@@ -10,19 +10,19 @@
 	let { children } = $props();
 
 	// Vars
-	// let loadingTimeout;
+	let loadingTimeout;
 
 	// configure nprogress
 	NProgress.configure({ showSpinner: false });
 
 	// handle navigation
 	beforeNavigate(() => {
-		// loadingTimeout = setTimeout(() => NProgress.start(), 200);
-		NProgress.start();
+		loadingTimeout = setTimeout(() => NProgress.start(), 100);
+		// NProgress.start();
 	});
 
 	afterNavigate(() => {
-		// clearTimeout(loadingTimeout);
+		clearTimeout(loadingTimeout);
 		NProgress.done();
 	});
 </script>

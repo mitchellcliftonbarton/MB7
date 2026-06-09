@@ -6,7 +6,7 @@
     'July', 'August', 'September', 'October', 'November', 'December'];
 
   // props
-  let { year, month, entries = [] } = $props();
+  let { year, month, entries = [], view = 'month' } = $props();
 
   // days in month
   let daysInMonth = $derived(new Date(year, month + 1, 0).getDate());
@@ -59,7 +59,8 @@
         day={i + 1}
         entries={activeDays.get(i + 1) ?? []}
         isToday={year === todayYear && month === todayMonth && i + 1 === todayDay}
-        href="/calendar/{dateStr(i + 1)}"
+        isFuture={year > todayYear || (year === todayYear && month > todayMonth) || (year === todayYear && month === todayMonth && i + 1 > todayDay)}
+        href="/calendar/{dateStr(i + 1)}{view === 'list' ? '?view=list' : ''}"
       />
     {/each}
   </div>

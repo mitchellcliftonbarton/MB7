@@ -1,86 +1,94 @@
 <script>
   import { format, parseISO } from 'date-fns';
+  import { page } from '$app/stores';
   import CalendarDetailItem from '$lib/components/CalendarDetailItem.svelte';
   import ArrowLeft from '$lib/components/ArrowLeft.svelte';
   import ArrowRight from '$lib/components/ArrowRight.svelte';
+  import X from '$lib/components/X.svelte';
 
   let { data } = $props();
+
+  let viewParam = $derived($page.url.searchParams.get('view'));
+  let calendarBase = $derived(viewParam === 'list' ? '/calendar?view=list' : '/calendar');
+  function dateHref(date) {
+    return `/calendar/${date}${viewParam === 'list' ? '?view=list' : ''}`;
+  }
 </script>
 
-<section class="calendar-subheader">
+<div class="panel-header">
+  <!-- <div class="h-base grid-item close-row"></div>
+
+  <div class="flex justify-end px-base">
+    <a href={calendarBase} class="close-btn" data-sveltekit-noscroll>
+      <X />
+    </a>
+  </div> -->
+
   <div class="h-base grid-item"></div>
 
-  <div class="px-base grid grid-cols-12 gap-base">
-    <div class="col-span-2">
-      <a href="/calendar" class="back-link flex items-center gap-4">
-        <ArrowLeft />
-        <span>Back to full Calendar</span>
-      </a>
-    </div>
-
-    <div class="col-span-8 flex justify-center">
-      <h1>You're looking at: <span class="text-blue">{format(parseISO(data.date), 'MMMM d, yyyy')}</span></h1>
-    </div>
-
-    <div class="col-span-2 flex justify-between items-center gap-base">
-      {#if data.nextDate}
-        <a href="/calendar/{data.nextDate}" class="prev-next-link">
+  <div class="px-base grid grid-cols-3 gap-base">
+    <div class="col-span-1 flex justify-start">
+      {#if data.prevDate}
+        <a href={dateHref(data.prevDate)} class="prev-next-link" data-sveltekit-noscroll>
           <ArrowLeft />
-          <span>{format(parseISO(data.nextDate), 'MMM d')}</span>
+          <span>{format(parseISO(data.prevDate), 'MMM d')}</span>
         </a>
       {:else}
-        <span class="opacity-50">At beginning</span>
+        <span class="opacity-50">Beginning</span>
       {/if}
+    </div>
 
-      {#if data.prevDate}
-        <a href="/calendar/{data.prevDate}" class="prev-next-link">
-          <span>{format(parseISO(data.prevDate), 'MMM d')}</span>
+    <div class="col-span-1 col-start-2 flex justify-center">
+      <h2 class="text-blue text-center">{format(parseISO(data.date), 'MMMM d, yyyy')}</h2>
+    </div>
+
+    <div class="col-span-1 flex justify-end">
+      {#if data.nextDate}
+        <a href={dateHref(data.nextDate)} class="prev-next-link" data-sveltekit-noscroll>
+          <span>{format(parseISO(data.nextDate), 'MMM d')}</span>
           <ArrowRight />
         </a>
       {:else}
-        <span class="opacity-50">At end</span>
+        <span class="opacity-50">End</span>
       {/if}
     </div>
   </div>
 
   <div class="h-base grid-item"></div>
-</section>
+</div>
 
-{#if data.entries.length === 0}
-  <section class="px-base">
-    <p>No entries for this date.</p>
-  </section>
-{:else}
-  <section>
+<div class="panel-body">
+  {#if data.entries.length === 0}
+    <div class="px-base">
+      <p>No entries for this date.</p>
+    </div>
+  {:else}
     {#each data.entries as entry, i (i)}
       <CalendarDetailItem {entry} />
       {#if i !== data.entries.length - 1}
         <div class="h-base grid-item"></div>
       {/if}
     {/each}
-  </section>
-{/if}
+  {/if}
+</div>
 
 <style lang="postcss">
-  .calendar-subheader {
+  .panel-header {
     position: sticky;
     top: 0;
-    z-index: 1000;
-  }
-
-  .back-link {
-    :global(svg) {
-      width: 1.7rem;
-    }
   }
 
   .prev-next-link {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5em;
 
     :global(svg) {
       width: 1.7rem;
     }
+  }
+
+  :global(.close-btn svg) {
+    width: 1.8rem;
   }
 </style>

@@ -4,7 +4,7 @@
   import Image from '$lib/components/Image.svelte';
   import Portable from '$lib/components/Portable.svelte';
 
-  let { entry } = $props();
+  let { entry, view = 'month' } = $props();
 
   const categoryLabels = {
     'studio-log': 'Studio Log',
@@ -16,7 +16,7 @@
   const media = entry.media?.[0];
 </script>
 
-<a href="/calendar/{entry.date}" class="calendar-list-item-small relative z-1 pb-16 space-y-12">
+<a href="/calendar/{entry.date}{view === 'list' ? '?view=list' : ''}" data-sveltekit-noscroll class="calendar-list-item-small relative z-1 pb-16 space-y-12">
   <div class="entry-header">
     <div class="flex justify-between items-center">
       <p class="date text-blue">{format(parseISO(entry.date), 'MMMM d, yyyy')}</p>
