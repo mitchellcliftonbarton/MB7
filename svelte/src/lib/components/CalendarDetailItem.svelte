@@ -38,7 +38,13 @@
               <!-- svelte-ignore a11y_media_has_caption -->
               <video src={item.url} controls class="w-full"></video>
             {:else if item.asset}
-              <Image {item} classes="w-[80%] shadow-lg" />
+              {@const dim = item.asset.metadata?.dimensions}
+              <div
+                class="img-frame flex items-center justify-center w-[80%] max-h-[80vh]"
+                style="aspect-ratio: {dim ? `${dim.width} / ${dim.height}` : '4 / 3'}"
+              >
+                <Image {item} classes="w-auto h-auto max-w-full max-h-full object-contain shadow-lg" />
+              </div>
             {/if}
 
             {#if item.caption}
