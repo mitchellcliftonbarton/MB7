@@ -1,6 +1,7 @@
 <script>
 	import { page } from '$app/state';
 	import ArrowRight from '$lib/components/ArrowRight.svelte';
+	import { commandPaletteOpen } from '$lib/stores/commandPalette.js';
 
 	// get todays date, and format it as April 20, 2026
 	const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -31,7 +32,7 @@
 		</div>
 
 		<div class="col-span-2 col-start-11 flex justify-end">
-			<button class="text-right">Controls/Search (⌘K)</button>
+			<button class="text-right" onclick={() => commandPaletteOpen.set(true)}>Controls/Search (⌘K)</button>
 		</div>
 	</div>
 

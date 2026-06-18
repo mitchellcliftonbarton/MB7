@@ -87,7 +87,9 @@
       </a>
 
       <div class="detail-panel">
-        {@render children()}
+        <div class="detail-panel-scroll">
+          {@render children()}
+        </div>
 
         <div class="detail-panel-grid">
           <div></div>
@@ -132,10 +134,8 @@
       height: 100%;
       background: white;
       z-index: 100;
-      overflow-y: auto;
-      scrollbar-width: none;
-      position: relative;
-      transform: translate(0px, 0px); /* this creates a new contetx for for detail panel grid so that position fixed will work */
+      position: relative; /* containing block for the absolute grid overlay */
+      overflow: hidden; /* clip; the inner element does the scrolling */
 
       /* &::before {
         content: '';
@@ -159,13 +159,20 @@
         right: 0;
       } */
 
+      .detail-panel-scroll {
+        height: 100%;
+        overflow-y: auto;
+        scrollbar-width: none;
+      }
+
       .detail-panel-grid {
-        position: fixed;
+        position: absolute;
         inset: 0;
+        z-index: 1; /* sits over the scrolling content */
         display: flex;
         justify-content: space-between;
         pointer-events: none;
-        
+
         & > div {
           width: var(--spacing-base);
           height: 100%;
