@@ -7,6 +7,9 @@ export const load = async ({ params }) => {
 				_id,
 				date,
 				category,
+				mediaType,
+				medium[]->{ _id, title },
+				content[]->{ _id, title },
 				text,
 				media[]{
 					mediaType,

@@ -28,7 +28,7 @@
       </div>
 
       <a href="/calendar/{entry.date}" class="view-link flex items-center gap-4">
-        <span class="flex-none">View Entry</span> 
+        <span class="flex-none">View</span> 
         <ArrowRight />
       </a>
     </div>

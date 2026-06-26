@@ -45,7 +45,7 @@
   }
 </script>
 
-<div class="bg-grey-1 border border-grey-2 rounded-[4rem] px-8 pt-12 pb-18 space-y-8 z-1">
+<div class="month-item border rounded-[4rem] px-8 pt-12 pb-18 space-y-8 z-1" class:is-empty={activeDays.size === 0}>
   <p class="text-center text-red">{monthNames[month]} {year}</p>
 
   <div class="days grid grid-cols-7 gap-x-4 gap-y-4">
@@ -65,3 +65,19 @@
     {/each}
   </div>
 </div>
+
+<style>
+  .month-item {
+    background-color: var(--color-grey-1);
+    border: 1px solid var(--color-grey-2);
+
+    &.is-empty {
+      background-color: var(--color-white);
+      border-color: var(--color-grey-1);
+
+      :global(.day-cell) {
+        opacity: 0.2;
+      }
+    } 
+  }
+</style>

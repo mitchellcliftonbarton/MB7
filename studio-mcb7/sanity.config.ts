@@ -1,6 +1,7 @@
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
+import {CalendarIcon} from '@sanity/icons'
 import {schemaTypes} from './schemaTypes'
 
 const HOME_PAGE_ID = 'homePage'
@@ -26,7 +27,19 @@ export default defineConfig({
                   .schemaType('homePage')
                   .documentId(HOME_PAGE_ID)
               ),
-            S.documentTypeListItem('calendarEntry').title('Calendar Entries'),
+            S.listItem()
+              .title('Calendar')
+              .id('calendar')
+              .icon(CalendarIcon)
+              .child(
+                S.list()
+                  .title('Calendar')
+                  .items([
+                    S.documentTypeListItem('calendarEntry').title('Entries'),
+                    S.documentTypeListItem('medium').title('Mediums'),
+                    S.documentTypeListItem('contentTag').title('Categories'),
+                  ])
+              ),
           ]),
     }),
     visionTool(),

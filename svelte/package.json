@@ -34,6 +34,7 @@
 		"@sanity/client": "^7.22.0",
 		"@sanity/image-url": "^2.1.1",
 		"date-fns": "^4.1.0",
+		"email-validator": "^2.0.4",
 		"nprogress": "^0.2.0"
 	}
 }

@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {CalendarIcon} from '@sanity/icons'
+import {ContentTagCheckboxes, MediumCheckboxes} from '../components/TagCheckboxes'
 
 export const calendarEntry = defineType({
   name: 'calendarEntry',
@@ -39,6 +40,36 @@ export const calendarEntry = defineType({
         ],
         layout: 'radio',
       },
+    }),
+    defineField({
+      name: 'mediaType',
+      title: 'Media Type',
+      description: 'The kind(s) of media in this entry. Pick any that apply.',
+      type: 'array',
+      of: [{type: 'string'}],
+      options: {
+        list: [
+          {title: 'Image', value: 'image'},
+          {title: 'Video', value: 'video'},
+          {title: 'Text', value: 'text'},
+        ],
+      },
+    }),
+    defineField({
+      name: 'medium',
+      title: 'Medium',
+      description: 'Materials / techniques. Check any that apply, or add a new one inline.',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'medium'}]}],
+      components: {input: MediumCheckboxes},
+    }),
+    defineField({
+      name: 'content',
+      title: 'Content',
+      description: 'Topic tags. Check any that apply, or add a new one inline.',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'contentTag'}]}],
+      components: {input: ContentTagCheckboxes},
     }),
     defineField({
       name: 'text',
