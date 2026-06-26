@@ -4,6 +4,7 @@
   import Month from '$lib/components/Month.svelte';
   import CalendarListItemSmall from '$lib/components/CalendarListItemSmall.svelte';
   import X from '$lib/components/X.svelte';
+  import { lockScroll, unlockScroll } from '$lib/utils/scrollLock.js';
 
   let { data, children } = $props();
 
@@ -138,8 +139,8 @@
   // lock background scroll while the detail panel is open
   $effect(() => {
     if (isDetailOpen) {
-      document.body.style.overflow = 'hidden';
-      return () => { document.body.style.overflow = ''; };
+      lockScroll();
+      return unlockScroll;
     }
   });
 </script>

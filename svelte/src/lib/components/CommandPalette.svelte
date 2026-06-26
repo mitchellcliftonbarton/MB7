@@ -1,11 +1,15 @@
 <script>
   import { commandPaletteOpen } from '$lib/stores/commandPalette.js';
-  import { format, parseISO } from 'date-fns';
+  import SearchIcon from '$lib/components/SearchIcon.svelte';
+  import CalendarListItemSmall from '$lib/components/CalendarListItemSmall.svelte';
+  import { lockScroll, unlockScroll } from '$lib/utils/scrollLock.js';
 
   let { entries = [] } = $props();
 
   let query = $state('');
   let inputEl;
+
+  const MAX_RESULTS = 20;
 
   const categoryLabels = {
     'studio-log': 'Studio Log',
@@ -27,7 +31,7 @@
         return true;
       }
       return false;
-    }).slice(0, 20);
+    }).slice(0, MAX_RESULTS);
   });
 
   function close() {
@@ -44,6 +48,14 @@
       setTimeout(() => inputEl?.focus(), 50);
     } else {
       query = '';
+    }
+  });
+
+  // lock background scroll while the palette is open
+  $effect(() => {
+    if ($commandPaletteOpen) {
+      lockScroll();
+      return unlockScroll;
     }
   });
 
@@ -69,16 +81,19 @@
     ></div>
 
     <div class="palette-panel">
+      <div class="palette-scroll">
       <div class="panel-header">
         <div class="h-base grid-item"></div>
 
         <div class="px-base grid grid-cols-3 gap-base">
-          <div class="col-span-3">
+          <div class="search-input-container col-span-3 bg-green-alt">
+            <SearchIcon />
+
             <input
               bind:this={inputEl}
               bind:value={query}
               type="text"
-              placeholder="Search calendar entries..."
+              placeholder="Search for artworks, log entries, notes, etc....."
               class="search-input w-full"
             />
           </div>
@@ -90,30 +105,28 @@
       <div class="panel-body px-base">
         {#if query.trim() === ''}
           <div class="empty-state">
-            <p class="opacity-50">Type to search calendar entries</p>
+            <p>Controls</p>
           </div>
         {:else if results().length === 0}
           <div class="empty-state">
-            <p class="opacity-50">No results for "{query}"</p>
+            <p>No results for "{query}"</p>
           </div>
         {:else}
           <ul class="results-list">
-            {#each results() as entry}
+            {#each results() as entry, i (entry._id)}
               <li>
-                <a
-                  href="/calendar/{entry.date}"
-                  class="result-item"
-                  onclick={close}
-                >
-                  <span class="result-date text-blue">{format(parseISO(entry.date), 'MMMM d, yyyy')}</span>
-                  {#if entry.category}
-                    <span class="result-category {entry.category}">{categoryLabels[entry.category]}</span>
-                  {/if}
-                </a>
+                <CalendarListItemSmall {entry} onclick={close} truncate imageWidth={600} />
               </li>
+              {#if (i + 1) % 5 === 0}
+                <li class="h-base grid-item col-span-5"></li>
+              {/if}
             {/each}
+            {#if results().length % 5 !== 0}
+              <li class="h-base grid-item col-span-5"></li>
+            {/if}
           </ul>
         {/if}
+      </div>
       </div>
 
       <div class="detail-panel-grid">
@@ -148,83 +161,71 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.35);
-    cursor: default;
+    cursor: pointer;
   }
 
   .palette-panel {
     width: calc(50% + var(--spacing-base));
-    height: 100%;
+    height: 75svh;
     background: white;
     z-index: 100;
-    overflow-y: auto;
-    scrollbar-width: none;
-    position: relative;
+    overflow: hidden; /* clip; the inner element does the scrolling */
+    position: relative; /* containing block for the absolute grid overlay */
     transform: translate(0px, 0px);
+    border-radius: 2rem;
+  }
+
+  .palette-scroll {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
   }
 
   .panel-header {
     position: sticky;
     top: 0;
-    background: white;
     z-index: 10;
   }
 
-  .search-input {
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--color-black);
-    padding: 0;
-    padding-bottom: 0.2em;
-    outline: none;
-    font-size: inherit;
-    font-family: inherit;
-    line-height: inherit;
+  .search-input-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 
-    &::placeholder {
-      color: var(--color-black);
-      opacity: 0.4;
+    :global(.search-icon) {
+      width: 1.5rem;
     }
 
-    &::selection {
-      background-color: var(--color-black);
-      color: var(--color-white);
-    }
-  }
+    .search-input {
+      outline: none;
+      font-size: inherit;
+      font-family: inherit;
+      line-height: inherit;
+      padding-bottom: 0.1em;
 
-  .empty-state {
-    padding-top: 1em;
+      &::placeholder {
+        color: var(--color-black);
+      }
+
+      &::selection {
+        background-color: var(--color-black);
+        color: var(--color-white);
+      }
+    }
   }
 
   .results-list {
     list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: var(--spacing-base);
   }
 
-  .result-item {
-    display: flex;
-    align-items: baseline;
-    gap: 1em;
-    padding-bottom: var(--spacing-base);
-    border-bottom: 1px solid var(--color-grid-bg);
-    text-decoration: none;
-
-    &:hover .result-date {
-      text-decoration: underline;
-    }
-  }
-
-  .result-category {
-    font-size: 0.85em;
-    opacity: 0.6;
-  }
-
   .detail-panel-grid {
-    position: fixed;
+    position: absolute;
     inset: 0;
+    z-index: 1; /* sits over the scrolling content */
     display: flex;
     justify-content: space-between;
     pointer-events: none;

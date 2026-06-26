@@ -4,7 +4,7 @@
   import Image from '$lib/components/Image.svelte';
   import Portable from '$lib/components/Portable.svelte';
 
-  let { entry, view = 'month' } = $props();
+  let { entry, view = 'month', onclick, truncate = false, imageWidth = 1800 } = $props();
 
   const categoryLabels = {
     'studio-log': 'Studio Log',
@@ -16,20 +16,15 @@
   const media = entry.media?.[0];
 </script>
 
-<a href="/calendar/{entry.date}{view === 'list' ? '?view=list' : ''}" data-sveltekit-noscroll class="calendar-list-item-small relative z-1 pb-16 space-y-12">
+<a href="/calendar/{entry.date}{view === 'list' ? '?view=list' : ''}" {onclick} data-sveltekit-noscroll class="calendar-list-item-small relative z-1 pb-16 space-y-12">
   <div class="entry-header">
-    <div class="flex justify-between items-center">
-      <p class="date text-blue">{format(parseISO(entry.date), 'MMMM d, yyyy')}</p>
-
-      {#if entry.category}
-        <div class="categories">
-          <span class="category {entry.category}">{categoryLabels[entry.category]}</span>
-        </div>
-      {/if}
+    <div class="flex items-center gap-3">
+      <span class="category {entry.category}"></span>
+      <p class="date text-blue">{format(parseISO(entry.date), 'MM.dd.yyyy')}</p>
     </div>
 
     {#if entry.text}
-      <div class="text rich-text pr-base">
+      <div class="text rich-text pr-base w-full line-clamp-3 pb-2">
         <Portable value={entry.text} />
       </div>
     {/if}
@@ -41,7 +36,7 @@
         <!-- svelte-ignore a11y_media_has_caption -->
         <video src={media.url} preload="metadata"></video>
       {:else if media.asset}
-        <Image item={media} classes="w-full h-full object-contain" />
+        <Image item={media} fetchWidth={imageWidth} classes="w-full h-full object-contain" />
       {/if}
     </figure>
   {/if}
@@ -52,6 +47,14 @@
     & > * + .media {
       margin-top: 3rem;
     }
+  }
+
+  .text.truncate {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
   }
 
   .category {
