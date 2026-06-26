@@ -22,6 +22,16 @@
   let view = $derived($page.url.searchParams.get('view') || 'month');
   let isDetailOpen = $derived($page.route.id === '/calendar/[date]');
 
+  // overlay tint behind the detail panel, by the viewed entry's type (35% to match the dim)
+  const closerColors = {
+    'studio-log': 'rgb(255 251 0 / 35%)', // --color-yellow
+    'notes': 'rgb(0 187 68 / 35%)',       // --color-green
+    'works': 'rgb(255 121 121 / 35%)',
+  };
+  let detailCategory = $derived(
+    data.entries.find(e => e.date === $page.params.date)?.category
+  );
+
   // all years across every entry (facet options)
   let allYears = $derived(
     [...new Set(data.entries.map(e => Number(e.date.split('-')[0])))]
@@ -124,6 +134,14 @@
 
   // filter open/close state — start open if filters are already applied on load
   let isFilterOpen = $state(!!hasFilters);
+
+  // lock background scroll while the detail panel is open
+  $effect(() => {
+    if (isDetailOpen) {
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = ''; };
+    }
+  });
 </script>
 
 <section class="page-header">
@@ -227,7 +245,7 @@
       <p class="no-results px-base">No entries match these filters.</p>
     {:else if view === 'month'}
       <section class="calendar-page">
-        {#each years as year}
+        {#each years as year (year)}
           <section class="year-section px-base">
             <div class="year-heading-container grid grid-cols-12 gap-base">
               <h2 class="year-heading col-span-2 col-start-6 text-center bg-grid-bg-flat text-blue p-3">{year}</h2>
@@ -250,19 +268,27 @@
       </section>
     {:else if view === 'list'}
       <section class="calendar-page grid grid-cols-6 gap-x-base px-base">
-        {#each filteredEntries as entry, i}
+        {#each filteredEntries as entry, i (entry._id)}
           <CalendarListItemSmall {entry} {view} />
           {#if (i + 1) % 6 === 0}
             <div class="h-base grid-item col-span-6"></div>
           {/if}
         {/each}
+        {#if filteredEntries.length % 6 !== 0}
+          <div class="h-base grid-item col-span-6"></div>
+        {/if}
       </section>
     {/if}
   </div>
 
   {#if isDetailOpen}
     <div class="calendar-detail">
-      <a href={view === 'list' ? '/calendar?view=list' : '/calendar'} class="closer" data-sveltekit-noscroll>
+      <a
+        href={view === 'list' ? '/calendar?view=list' : '/calendar'}
+        class="closer"
+        style={detailCategory && closerColors[detailCategory] ? `background-color: ${closerColors[detailCategory]}` : undefined}
+        data-sveltekit-noscroll
+      >
         <span class="sr-only">Back to calendar</span>
       </a>
 
@@ -306,7 +332,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.35);
+      /* background-color: rgba(0, 0, 0, 0.35); */
+      background-color: rgb(255 121 121 / 35%);
     }
 
     .detail-panel {
