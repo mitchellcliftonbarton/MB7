@@ -94,6 +94,20 @@
     }
   }
 
+  :global(body.hide-grid) .tooltip {
+    &::before,
+    &::after {
+      background-color: transparent;
+    }
+  }
+
+  :global(body[data-difficulty="medium"]) .tooltip {
+    &::before,
+    &::after {
+      background-color: var(--color-grey-1);
+    }
+  }
+
   .tooltip-entry {
     display: flex;
     flex-direction: row;

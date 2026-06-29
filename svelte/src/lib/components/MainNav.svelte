@@ -7,7 +7,7 @@
 	const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 </script>
 
-<header class="flex-none">
+<header class="flex-none z-10">
 	<!-- <a href="/" class={`fixed top-base left-base z-[5000] ${page.url.pathname === '/' ? 'text-blue' : ''}`}>Mitchell Barton</a> -->
 
 	<div class="grid-item h-base w-full"></div>
@@ -26,7 +26,7 @@
 		</div>
 
 		<div class="col-span-2 col-start-6 flex justify-center">
-			<p>
+			<p class="current-date">
 				Today is: <span class="text-green">{today}</span>
 			</p>
 		</div>
@@ -41,14 +41,26 @@
 	{/if}
 
   {#if page.url.pathname === '/'}
-    <div class="relative z-1 px-base grid grid-cols-12 gap-base">
+    <div class="announcements relative z-1 px-base grid grid-cols-12 gap-base">
       <div class="col-span-9 bg-yellow-alt">
         <p>New website launched, please be nice to it :)</p>
       </div>
 
 			<EmailSignup />
     </div>
-
-    <!-- <div class="grid-item h-base w-full"></div> -->
   {/if}
 </header>
+
+<style>
+	.current-date {
+		:global(body.hide-current-date) & {
+			display: none;
+		}
+	}
+
+	.announcements {
+		:global(body.hide-announcements) & {
+			display: none;
+		}
+	}
+</style>

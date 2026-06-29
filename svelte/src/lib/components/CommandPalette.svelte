@@ -3,6 +3,7 @@
   import SearchIcon from '$lib/components/SearchIcon.svelte';
   import CalendarListItemSmall from '$lib/components/CalendarListItemSmall.svelte';
   import { lockScroll, unlockScroll } from '$lib/utils/scrollLock.js';
+  import { siteSettings } from '$lib/stores/siteSettings.js';
 
   let { entries = [] } = $props();
 
@@ -10,6 +11,21 @@
   let inputEl;
 
   const MAX_RESULTS = 20;
+
+  const difficultyOptions = [
+    { value: 'easy', label: 'Easy' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'hard', label: 'Hard' },
+    { value: 'expert', label: 'Expert' },
+  ];
+
+  function toggleSetting(key) {
+    siteSettings.update(s => ({ ...s, [key]: !s[key] }));
+  }
+
+  function setDifficulty(value) {
+    siteSettings.update(s => ({ ...s, difficulty: value }));
+  }
 
   const categoryLabels = {
     'studio-log': 'Studio Log',
@@ -111,21 +127,26 @@
 
             <div class="col-span-1">
               <p>Global:</p>
-              <p>Hide Grid</p>
-              <p>Hide Current Date</p>
+              <div class="flex flex-col items-start gap-1">
+                <button type="button" class="check-link {$siteSettings.hideGrid ? 'active' : ''}" onclick={() => toggleSetting('hideGrid')}>Hide Grid</button>
+                <button type="button" class="check-link {$siteSettings.hideCurrentDate ? 'active' : ''}" onclick={() => toggleSetting('hideCurrentDate')}>Hide Current Date</button>
+              </div>
             </div>
 
             <div class="col-span-1">
               <p>Difficulty:</p>
-              <p>Easy</p>
-              <p>Medium</p>
-              <p>Hard</p>
-              <p>Expert</p>
+              <div class="flex flex-col items-start gap-1">
+                {#each difficultyOptions as opt}
+                  <button type="button" class="radio-link {$siteSettings.difficulty === opt.value ? 'active' : ''}" onclick={() => setDifficulty(opt.value)}>{opt.label}</button>
+                {/each}
+              </div>
             </div>
 
             <div class="col-span-2">
               <p>Other:</p>
-              <p>Hide Announcements</p>
+              <div class="flex flex-col items-start gap-1">
+                <button type="button" class="check-link {$siteSettings.hideAnnouncements ? 'active' : ''}" onclick={() => toggleSetting('hideAnnouncements')}>Hide Announcements</button>
+              </div>
             </div>
 
             <div class="h-base grid-item col-span-5"></div>
@@ -153,12 +174,12 @@
       </div>
 
       <div class="detail-panel-grid">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
       </div>
     </div>
   </div>
@@ -256,7 +277,6 @@
     & > div {
       width: var(--spacing-base);
       height: 100%;
-      background-color: var(--color-grid-bg);
     }
   }
 </style>

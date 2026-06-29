@@ -7,9 +7,19 @@
 	import MainFooter from '$lib/components/MainFooter.svelte';
 	import CommandPalette from '$lib/components/CommandPalette.svelte';
 	import { commandPaletteOpen } from '$lib/stores/commandPalette.js';
+	import { siteSettings } from '$lib/stores/siteSettings.js';
 
 	// Props
 	let { children, data } = $props();
+
+	// reflect site settings onto the body so styles can react globally
+	$effect(() => {
+		const s = $siteSettings;
+		document.body.classList.toggle('hide-grid', s.hideGrid);
+		document.body.classList.toggle('hide-current-date', s.hideCurrentDate);
+		document.body.classList.toggle('hide-announcements', s.hideAnnouncements);
+		document.body.dataset.difficulty = s.difficulty;
+	});
 
 	function handleGlobalKey(e) {
 		if ((e.metaKey || e.ctrlKey) && e.key === 'k') {

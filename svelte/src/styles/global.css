@@ -87,10 +87,64 @@ input {
 	width: var(--spacing-base);
 	height: 100%;
 	background-color: var(--color-grid-bg);
+
+	body.hide-grid & {
+		background-color: transparent;
+	}
+
+	body[data-difficulty="medium"] & {
+		background-color: var(--color-grey-1);
+	}
 }
 
 .grid-item {
 	background-color: var(--color-grid-bg);
+
+	body.hide-grid & {
+		background-color: transparent;
+	}
+
+	body[data-difficulty="medium"] & {
+		background-color: var(--color-grey-1);
+	}
+}
+
+/*
+Checkbox / radio toggle controls (shared by calendar filters and palette controls)
+*/
+
+.check-link,
+.radio-link {
+	cursor: pointer;
+	display: flex;
+	align-items: flex-start;
+	gap: 0.7rem;
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+	font: inherit;
+	color: inherit;
+	text-align: left;
+
+	&::before {
+		content: '';
+		display: block;
+		flex: none;
+		width: 0.7em;
+		height: 0.7em;
+		border: 2px solid var(--color-black);
+		transform: translateY(0.23em);
+	}
+
+	&.active::before {
+		background-color: var(--color-red);
+	}
+}
+
+/* radios are round */
+.radio-link::before {
+	border-radius: 50%;
 }
 
 /*

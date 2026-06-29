@@ -148,7 +148,7 @@
 <section class="page-header">
   <div class="h-base grid-item"></div>
 
-  <div class="grid grid-cols-12 gap-base px-base">
+  <div class="grid grid-cols-12 gap-base px-base z-10 relative">
     <div class="col-span-2">
       <button onclick={() => isFilterOpen = !isFilterOpen}>Filter {isFilterOpen ? '–' : '+'}</button>
     </div>
@@ -299,12 +299,12 @@
         </div>
 
         <div class="detail-panel-grid">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <div class="grid-item"></div>
+          <div class="grid-item"></div>
+          <div class="grid-item"></div>
+          <div class="grid-item"></div>
+          <div class="grid-item"></div>
+          <div class="grid-item"></div>
         </div>
       </div>
     </div>
@@ -384,7 +384,6 @@
         & > div {
           width: var(--spacing-base);
           height: 100%;
-          background-color: var(--color-grid-bg);
         }
       }
     }
@@ -396,34 +395,7 @@
     column-gap: var(--spacing-base);
   }
 
-  .check-link {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: .7rem;
-    /* reset so <button> matches the <a> styling */
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    font: inherit;
-    color: inherit;
-    text-align: left;
-
-    &::before {
-      content: '';
-      display: block;
-      flex: none;
-      width: .7em;
-      height: .7em;
-      border: 2px solid var(--color-black);
-      transform: translateY(0.08em);
-    }
-
-    &.active::before {
-      background-color: var(--color-red);
-    }
-  }
+  /* .check-link styling is global (src/styles/global.css) */
 
   .empty {
     opacity: 0.45;

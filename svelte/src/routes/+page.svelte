@@ -28,7 +28,7 @@
 </script>
 
 <section class="page-header">
-  <div class="h-base grid-item"></div>
+  <div class="top-bar h-base grid-item"></div>
 
   <div class="grid grid-cols-12 gap-base px-base">
     <div class="col-span-6 col-start-2">
@@ -92,6 +92,12 @@
     position: sticky;
     bottom: 0;
     z-index: 10;
+  }
+
+  .top-bar {
+    :global(body.hide-announcements) & {
+      display: none;
+    }
   }
 
   .main-content {
