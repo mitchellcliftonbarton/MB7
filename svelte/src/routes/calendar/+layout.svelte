@@ -23,11 +23,13 @@
   let view = $derived($page.url.searchParams.get('view') || 'month');
   let isDetailOpen = $derived($page.route.id === '/calendar/[date]');
 
-  // overlay tint behind the detail panel, by the viewed entry's type (35% to match the dim)
+  // overlay tint behind the detail panel, by the viewed entry's type (35%).
+  // Derived from the same palette vars used for the category dots so the tint
+  // always matches the type indicator (see CalendarListItemSmall/DayCell).
   const closerColors = {
-    'studio-log': 'rgb(255 251 0 / 35%)', // --color-yellow
-    'notes': 'rgb(0 187 68 / 35%)',       // --color-green
-    'works': 'rgb(255 121 121 / 35%)',
+    'studio-log': 'color-mix(in srgb, var(--color-yellow) 35%, transparent)',
+    'notes': 'color-mix(in srgb, var(--color-green-alt) 35%, transparent)',
+    'works': 'color-mix(in srgb, var(--color-red) 35%, transparent)',
   };
   let detailCategory = $derived(
     data.entries.find(e => e.date === $page.params.date)?.category
@@ -333,8 +335,9 @@
       left: 0;
       width: 100%;
       height: 100%;
-      /* background-color: rgba(0, 0, 0, 0.35); */
-      background-color: rgb(255 121 121 / 35%);
+      /* Tint is set inline per entry type (see closerColors). Default to a
+         neutral dim so an unknown/loading category never flashes a wrong hue. */
+      background-color: rgb(0 0 0 / 35%);
     }
 
     .detail-panel {

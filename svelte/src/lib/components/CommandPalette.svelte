@@ -1,5 +1,6 @@
 <script>
   import { commandPaletteOpen } from '$lib/stores/commandPalette.js';
+  import { afterNavigate } from '$app/navigation';
   import SearchIcon from '$lib/components/SearchIcon.svelte';
   import CalendarListItemSmall from '$lib/components/CalendarListItemSmall.svelte';
   import { lockScroll, unlockScroll } from '$lib/utils/scrollLock.js';
@@ -54,6 +55,14 @@
     commandPaletteOpen.set(false);
     query = '';
   }
+
+  // Keep the palette covering the calendar until navigation (incl. the detail
+  // page's data load) fully completes, then close it — otherwise the palette
+  // closes instantly on click and the bare calendar flashes before the detail
+  // panel finishes loading.
+  afterNavigate(() => {
+    if ($commandPaletteOpen) close();
+  });
 
   function handleBackdropKey(e) {
     if (e.key === 'Enter' || e.key === ' ') close();
@@ -159,7 +168,7 @@
           <ul class="results-list">
             {#each results() as entry, i (entry._id)}
               <li>
-                <CalendarListItemSmall {entry} onclick={close} truncate imageWidth={600} />
+                <CalendarListItemSmall {entry} truncate imageWidth={600} />
               </li>
               {#if (i + 1) % 5 === 0}
                 <li class="h-base grid-item col-span-5"></li>
