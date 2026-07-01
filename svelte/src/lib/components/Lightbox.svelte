@@ -183,6 +183,33 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: var(--spacing-base);
+      background-color: var(--color-grid-bg);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      width: 100%;
+      height: var(--spacing-base);
+      background-color: var(--color-grid-bg);
+    }
+  }
+
+  :global(body.hide-grid) .lightbox {
+    &::before,
+    &::after {
+      background-color: transparent;
+    }
   }
 
   .lightbox.open {
@@ -321,6 +348,10 @@
     width: var(--spacing-base);
     height: 100%;
     background-color: var(--color-grid-bg);
+
+    :global(body.hide-grid) & {
+      background-color: transparent;
+    }
   }
 
   /* Arrows sit in the header on small screens, and flank the image on desktop.

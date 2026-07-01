@@ -159,3 +159,13 @@ img[loading="lazy"] {
     opacity: 1;
   }
 }
+
+/*
+Rich text
+*/
+
+.rich-text {
+	a {
+		text-decoration: underline;
+	}
+}

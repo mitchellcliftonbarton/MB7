@@ -129,7 +129,7 @@
 
       <div class="panel-body px-base">
         {#if query.trim() === ''}
-          <div class="grid grid-cols-5 gap-x-base">
+          <!-- <div class="grid grid-cols-5 gap-x-base">
             <div class="col-span-1">
               <p class="text-blue">Controls</p>
             </div>
@@ -159,7 +159,7 @@
             </div>
 
             <div class="h-base grid-item col-span-5"></div>
-          </div>
+          </div> -->
         {:else if results().length === 0}
           <div>
             <p>No results for "{query}"</p>

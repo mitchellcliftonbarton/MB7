@@ -32,7 +32,7 @@
 		</div>
 
 		<div class="col-span-2 col-start-11 flex justify-end">
-			<button class="text-right" onclick={() => commandPaletteOpen.set(true)}>Controls/Search (⌘K)</button>
+			<button class="text-right" onclick={() => commandPaletteOpen.set(true)}>Search (⌘K)</button>
 		</div>
 	</div>
 
@@ -43,7 +43,7 @@
   {#if page.url.pathname === '/'}
     <div class="announcements relative z-1 px-base grid grid-cols-12 gap-base">
       <div class="col-span-9 bg-yellow-alt">
-        <p>New website launched, please be nice to it :)</p>
+        <p>New website launched, still uploading content. Please be nice to it :)</p>
       </div>
 
 			<EmailSignup />

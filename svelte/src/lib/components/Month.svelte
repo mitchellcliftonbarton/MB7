@@ -37,6 +37,9 @@
   const todayMonth = now.getMonth();
   const todayDay = now.getDate();
 
+  // the current month is never marked empty, even with no entries yet
+  let isCurrentMonth = $derived(year === todayYear && month === todayMonth);
+
   // format the date string as YYYY-MM-DD. Only using date-fns for display formatting
   function dateStr(day) {
     const m = String(month + 1).padStart(2, '0');
@@ -45,7 +48,7 @@
   }
 </script>
 
-<div class="month-item border rounded-[4rem] px-8 pt-12 pb-18 space-y-8 z-1" class:is-empty={activeDays.size === 0}>
+<div class="month-item border rounded-[4rem] px-8 pt-12 pb-18 space-y-8 z-1" class:is-empty={activeDays.size === 0 && !isCurrentMonth}>
   <p class="text-center text-red">{monthNames[month]} {year}</p>
 
   <div class="days grid grid-cols-7 gap-x-4 gap-y-4">

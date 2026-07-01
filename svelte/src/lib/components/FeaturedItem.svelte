@@ -51,7 +51,7 @@
   <div class="w-[55%]">
     {#if media.length}
       <div class="w-full space-y-3">
-        <div class="aspect-4/5 relative">
+        <div class="aspect-4/5 relative bg-grey-1">
           <div bind:this={swiperEl} class="swiper h-full">
             <div class="swiper-wrapper">
               {#each media as m, i (i)}
