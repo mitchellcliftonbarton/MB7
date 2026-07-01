@@ -6,8 +6,9 @@
   import Swiper from 'swiper';
   import 'swiper/css';
   import { onMount } from 'svelte';
+  import { openLightboxUrl } from '$lib/stores/lightbox.js';
 
-  let { item } = $props();
+  let { item, workId } = $props();
 
   // `item` is stable for the lifetime of this instance, so plain values are fine.
   const media = (item.media ?? []).filter((m) => m?.asset);
@@ -22,6 +23,7 @@
 
     swiper = new Swiper(swiperEl, {
       loop: true,
+      roundLengths: true,
       on: {
         slideChange: (s) => {
           index = s.realIndex;
@@ -38,6 +40,10 @@
 
   function next() {
     swiper?.slideNext();
+  }
+
+  function expand() {
+    openLightboxUrl(workId, index);
   }
 </script>
 
@@ -57,7 +63,7 @@
           </div>
 
           <div class="controls absolute bottom-0 right-0 flex flex-col items-center">
-            <button>
+            <button onclick={expand}>
               <span class="sr-only">Expand</span>
               <Plus />
             </button>
@@ -96,6 +102,13 @@
   :global(.swiper),
   :global(.swiper-slide) {
     height: 100%;
+  }
+
+  /* Floor the carousel to a whole pixel so Swiper's integer-width slides match
+     the container exactly — otherwise a fractional container width leaves a
+     sub-pixel sliver of the neighbouring slide peeking at the edge. */
+  :global(.swiper) {
+    width: round(down, 100%, 1px);
   }
 
   .controls {

@@ -38,6 +38,17 @@ export const homePage = defineType({
               title: 'Caption',
               type: 'string',
             }),
+            defineField({
+              name: 'slug',
+              title: 'Slug',
+              type: 'slug',
+              description:
+                'Used in the URL when this item is opened in the lightbox. Click Generate to derive it from the caption.',
+              options: {
+                source: (_doc, {parent}) => (parent as {caption?: string})?.caption ?? '',
+                maxLength: 96,
+              },
+            }),
           ],
           preview: {
             select: {

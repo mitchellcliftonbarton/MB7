@@ -1,9 +1,12 @@
 <script>
   // imports
   import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
   import Month from '$lib/components/Month.svelte';
   import CalendarListItem from '$lib/components/CalendarListItem.svelte';
   import FeaturedItem from '$lib/components/FeaturedItem.svelte';
+  import Lightbox from '$lib/components/Lightbox.svelte';
+  import { LIGHTBOX_WORK_PARAM } from '$lib/stores/lightbox.js';
 
   // props
   let { data } = $props();
@@ -16,6 +19,32 @@
 
   // derived
   let view = $derived($page.url.searchParams.get('view') || 'month');
+
+  // Lightbox open/close is driven by the ?work= URL param, resolved synchronously
+  // (a $derived, not an $effect) so it renders during SSR and doesn't flash the
+  // page on refresh. The param is the item's slug, falling back to its index for
+  // items without a slug yet. Deep-linking and the browser back button come free.
+  const workId = (item, i) => item.slug ?? String(i);
+  let activeWork = $derived($page.url.searchParams.get(LIGHTBOX_WORK_PARAM));
+  let activeItem = $derived(
+    activeWork == null ? null : featuredWork.find((w, i) => workId(w, i) === activeWork)
+  );
+  let activeMedia = $derived((activeItem?.media ?? []).filter(m => m?.asset));
+
+  // If ?work= is present but matches no featured item, strip just that param
+  // (keeping any others) via replaceState so we land on a clean home page
+  // without a dead history entry. Runs client-side only.
+  $effect(() => {
+    if (activeWork != null && activeItem == null) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete(LIGHTBOX_WORK_PARAM);
+      goto(url.pathname + url.search + url.hash, {
+        replaceState: true,
+        noScroll: true,
+        keepFocus: true,
+      });
+    }
+  });
 
   // last six months
   const lastSixMonths = (() => {
@@ -52,8 +81,8 @@
   <div class="grid grid-cols-12 gap-base px-base">
     <div class="featured relative col-span-8 flex flex-col justify-end">
       <div class="featured-inner">
-        {#each featuredWork as item}
-          <FeaturedItem {item} />
+        {#each featuredWork as item, i}
+          <FeaturedItem {item} workId={workId(item, i)} />
           <div class="h-base grid-item"></div>
         {/each}
       </div>
@@ -79,6 +108,8 @@
     </div>
   </div>
 </section>
+
+<Lightbox open={activeMedia.length > 0} media={activeMedia} caption={activeItem?.caption ?? ''} />
 
 <style>
   .page-header {

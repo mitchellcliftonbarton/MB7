@@ -27,6 +27,7 @@ export const load = async () => {
 		client.fetch(
 			`*[_type == "homePage"][0].featuredWork[]{
 				caption,
+				"slug": slug.current,
 				media[]{
 					_type,
 					asset->{ ..., metadata },
