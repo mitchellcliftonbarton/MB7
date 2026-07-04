@@ -260,13 +260,15 @@
 
             <div class="h-base grid-item"></div>
 
-            <div class="months-grid lg:grid lg:grid-cols-3 lg:gap-x-base">
+            <div class="months-grid">
               {#each { length: monthCount(year) } as _, i}
-                <Month {year} month={i} entries={filteredEntries} {view} />
+                <div class="month-block">
+                  <Month {year} month={i} entries={filteredEntries} {view} />
+                  <div class="h-base grid-item col-span-3 lg:hidden"></div>
+                </div>
                 {#if i % 3 === 2 && i < monthCount(year) - 1}
                   <div class="h-base grid-item col-span-3 hidden lg:block"></div>
                 {/if}
-                <div class="h-base grid-item col-span-3 lg:hidden"></div>
               {/each}
             </div>
 
@@ -403,19 +405,22 @@
     }
   }
 
-  /* .months-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: var(--spacing-base);
+  .months-grid {
+    display: flex;
+    flex-direction: column-reverse;
 
-    :global(.month-item) {
-      grid-column: span 1 / span 1;
-
-      @media (min-width: 1024px) {
-        grid-column: span 3 / span 3;
-      }
+    @media (min-width: 1024px) {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: var(--spacing-base);
     }
-  } */
+  }
+
+  .month-block {
+    @media (min-width: 1024px) {
+      display: contents;
+    }
+  }
 
   /* .check-link styling is global (src/styles/global.css) */
 
