@@ -1,4 +1,5 @@
 import { client } from '$lib/sanity/client.js';
+import { ogImageUrl, firstImage } from '$lib/utils/og.js';
 
 export const load = async ({ params }) => {
 	const [entries, prevEntry, nextEntry] = await Promise.all([
@@ -12,6 +13,7 @@ export const load = async ({ params }) => {
 				content[]->{ _id, title },
 				text,
 				media[]{
+					_type,
 					mediaType,
 					caption,
 					url,
@@ -32,10 +34,13 @@ export const load = async ({ params }) => {
 		),
 	]);
 
+	const entryImage = entries?.reduce((found, entry) => found ?? firstImage(entry.media), null);
+
 	return {
 		date: params.date,
 		entries,
 		prevDate: prevEntry?.date ?? null,
 		nextDate: nextEntry?.date ?? null,
+		entryOgImage: ogImageUrl(entryImage?.asset),
 	};
 };

@@ -3,6 +3,7 @@
 	import NProgress from 'nprogress';
 	import 'nprogress/nprogress.css';
 	import { beforeNavigate, afterNavigate } from '$app/navigation';
+	import { page } from '$app/state';
 	import MainNav from '$lib/components/MainNav.svelte';
 	import MainFooter from '$lib/components/MainFooter.svelte';
 	import CommandPalette from '$lib/components/CommandPalette.svelte';
@@ -11,6 +12,16 @@
 
 	// Props
 	let { children, data } = $props();
+
+	// mirrors the per-route <title> tags set in each route (see those files)
+	const ogTitles = {
+		'/': 'Mitchell Barton',
+		'/calendar': 'Mitchell Barton | Calendar',
+		'/calendar/[date]': 'Mitchell Barton | Calendar',
+		'/info': 'Mitchell Barton | Info',
+	};
+	let ogTitle = $derived(ogTitles[page.route.id] ?? 'Mitchell Barton');
+	let ogImage = $derived(page.data.entryOgImage ?? page.data.defaultOgImage);
 
 	// reflect site settings onto the body so styles can react globally
 	$effect(() => {
@@ -45,6 +56,18 @@
 		NProgress.done();
 	});
 </script>
+
+<svelte:head>
+	{#if ogImage}
+		<meta property="og:title" content={ogTitle} />
+		<meta property="og:type" content="website" />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:image" content={ogImage} />
+	{/if}
+</svelte:head>
 
 <svelte:window on:keydown={handleGlobalKey} />
 
