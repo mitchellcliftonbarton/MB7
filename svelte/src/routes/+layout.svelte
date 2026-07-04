@@ -36,7 +36,7 @@
 
 	// handle navigation
 	beforeNavigate(() => {
-		loadingTimeout = setTimeout(() => NProgress.start(), 100);
+		loadingTimeout = setTimeout(() => NProgress.start(), 50);
 		// NProgress.start();
 	});
 
@@ -48,10 +48,6 @@
 
 <svelte:window on:keydown={handleGlobalKey} />
 
-<svelte:head>
-	<title>Mitchell Barton</title>
-</svelte:head>
-
 <MainNav />
 
 <main class="flex-1 flex flex-col">
@@ -62,7 +58,7 @@
 
 <CommandPalette entries={data.entries} />
 
-<div class="bg-grid">
+<div class="bg-grid bg-grid-desktop">
 	<div></div>
 	<div></div>
 	<div></div>
@@ -71,6 +67,15 @@
 	<div></div>
 	<div></div>
 	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+</div>
+
+
+<div class="bg-grid bg-grid-mobile">
 	<div></div>
 	<div></div>
 	<div></div>

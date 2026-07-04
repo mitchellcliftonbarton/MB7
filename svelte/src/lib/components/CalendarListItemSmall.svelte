@@ -16,7 +16,7 @@
   const media = entry.media?.[0];
 </script>
 
-<a href="/calendar/{entry.date}{view === 'list' ? '?view=list' : ''}" {onclick} data-sveltekit-noscroll class="calendar-list-item-small relative z-1 pb-16 space-y-12">
+<a href="/calendar/{entry.date}{view === 'list' ? '?view=list' : ''}" {onclick} data-sveltekit-noscroll class="calendar-list-item-small relative z-1 pb-8 lg:pb-16 space-y-12">
   <div class="entry-header">
     <div class="flex items-center gap-3">
       <span class="category {entry.category}"></span>

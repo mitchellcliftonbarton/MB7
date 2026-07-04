@@ -252,9 +252,7 @@
 
     .search-input {
       outline: none;
-      font-size: inherit;
-      font-family: inherit;
-      line-height: inherit;
+      line-height: 1.2;
       padding-bottom: 0.1em;
 
       &::placeholder {

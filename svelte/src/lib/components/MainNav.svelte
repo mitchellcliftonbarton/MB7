@@ -12,8 +12,8 @@
 
 	<div class="grid-item h-base w-full"></div>
 
-	<div class="leading-text-base grid grid-cols-12 gap-base px-base">
-		<div class="col-span-2">
+	<div class="leading-text-base grid grid-cols-4 lg:grid-cols-12 gap-base px-base items-start">
+		<div class="col-span-1 lg:col-span-2">
 			<a href="/" class={page.url.pathname === '/' ? 'text-blue' : ''}>Mitchell Barton</a>
 		</div>
 
@@ -25,14 +25,14 @@
 			<a href="/info" class={page.url.pathname === '/info' ? 'text-blue' : ''}>Info</a>
 		</div>
 
-		<div class="col-span-2 col-start-6 flex justify-center">
+		<div class="col-span-2 col-start-6 hidden lg:flex justify-center">
 			<p class="current-date">
 				Today is: <span class="text-green">{today}</span>
 			</p>
 		</div>
 
-		<div class="col-span-2 col-start-11 flex justify-end">
-			<button class="text-right" onclick={() => commandPaletteOpen.set(true)}>Search (⌘K)</button>
+		<div class="col-span-1 lg:col-span-2 lg:col-start-11 flex justify-end">
+			<button class="text-right" onclick={() => commandPaletteOpen.set(true)}>Search <span class="hidden lg:inline">(⌘K)</span></button>
 		</div>
 	</div>
 
@@ -41,10 +41,12 @@
 	{/if}
 
   {#if page.url.pathname === '/'}
-    <div class="announcements relative z-1 px-base grid grid-cols-12 gap-base">
-      <div class="col-span-9 bg-yellow-alt">
+    <div class="announcements relative z-1 px-base grid grid-cols-4 lg:grid-cols-12 lg:gap-base">
+      <div class="col-span-4 lg:col-span-9 bg-yellow-alt">
         <p>New website launched, still uploading content. Please be nice to it :)</p>
       </div>
+
+			<div class="col-span-4 grid-item h-base lg:hidden"></div>
 
 			<EmailSignup />
     </div>

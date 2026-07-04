@@ -81,6 +81,22 @@ input {
 	display: flex;
 	justify-content: space-between;
 	pointer-events: none;
+
+	&.bg-grid-desktop {
+		display: none;
+
+		@media (min-width: 1024px) {
+			display: flex;
+		}
+	}
+
+	&.bg-grid-mobile {
+		display: flex;
+
+		@media (min-width: 1024px) {
+			display: none;
+		}
+	}
 }
 
 .bg-grid > div {

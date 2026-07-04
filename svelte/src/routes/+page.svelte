@@ -56,7 +56,11 @@
   })();
 </script>
 
-<section class="page-header">
+<svelte:head>
+	<title>Mitchell Barton</title>
+</svelte:head>
+
+<section class="page-header hidden">
   <div class="top-bar h-base grid-item"></div>
 
   <div class="grid grid-cols-12 gap-base px-base">
@@ -77,7 +81,7 @@
   <div class="h-base grid-item"></div>
 </section>
 
-<section class="main-content relative">
+<section class="main-content relative hidden">
   <div class="grid grid-cols-12 gap-base px-base">
     <div class="featured relative col-span-8 flex flex-col justify-end">
       <div class="featured-inner">

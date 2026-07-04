@@ -3,6 +3,8 @@
 	import { PUBLIC_KIT_FORM_ID } from '$env/static/public';
 	import * as EmailValidator from 'email-validator';
 
+	let { label = 'Subscribe w/' } = $props();
+
 	let email = $state('');
 	// 'idle' | 'submitting' | 'success' | 'error'
 	let status = $state('idle');
@@ -48,9 +50,9 @@
 	}
 </script>
 
-<div class="email-signup col-span-3 relative">
-	<p class="absolute -translate-y-full" class:text-red={status === 'error'}>
-		{status === 'error' ? message : 'Subscribe w/'}
+<div class="email-signup col-span-4 lg:col-span-3 relative">
+	<p class="absolute -translate-y-full hidden lg:block" class:text-red={status === 'error'}>
+		{status === 'error' ? message : label}
 	</p>
 	<p class="invisible">Email Address</p>
 

@@ -147,15 +147,19 @@
   });
 </script>
 
+<svelte:head>
+	<title>Mitchell Barton | Calendar</title>
+</svelte:head>
+
 <section class="page-header">
   <div class="h-base grid-item"></div>
 
-  <div class="grid grid-cols-12 gap-base px-base z-10 relative">
-    <div class="col-span-2">
+  <div class="grid grid-cols-4 lg:grid-cols-12 gap-base px-base z-10 relative">
+    <div class="col-span-1 lg:col-span-2">
       <button onclick={() => isFilterOpen = !isFilterOpen}>Filter {isFilterOpen ? '–' : '+'}</button>
     </div>
 
-    <div class="view-by col-span-5 flex items-center gap-4">
+    <div class="view-by col-span-3 lg:col-span-5 flex items-center gap-4">
       <p>View by:</p>
       <div class="flex gap-6">
         <a href={viewHref('month')} class="check-link {view === 'month' ? 'active' : ''}">Month</a>
@@ -168,7 +172,7 @@
 
   {#if isFilterOpen}
     <div class="filters px-base">
-      <div class="grid grid-cols-12 gap-base bg-grid-bg">
+      <div class="grid grid-cols-4 lg:grid-cols-12 gap-base bg-grid-bg">
         <div class="col-span-2">
           <p>Type:</p>
 
@@ -250,18 +254,19 @@
       <section class="calendar-page">
         {#each years as year (year)}
           <section class="year-section px-base">
-            <div class="year-heading-container grid grid-cols-12 gap-base">
-              <h2 class="year-heading col-span-2 col-start-6 text-center bg-grid-bg-flat text-blue p-3">{year}</h2>
+            <div class="year-heading-container grid grid-cols-4 lg:grid-cols-12 gap-base">
+              <h2 class="year-heading col-span-2 col-start-2 lg:col-start-6 text-center bg-grid-bg-flat text-blue p-3">{year}</h2>
             </div>
 
             <div class="h-base grid-item"></div>
 
-            <div class="months-grid">
+            <div class="months-grid lg:grid lg:grid-cols-3 lg:gap-x-base">
               {#each { length: monthCount(year) } as _, i}
                 <Month {year} month={i} entries={filteredEntries} {view} />
                 {#if i % 3 === 2 && i < monthCount(year) - 1}
-                  <div class="h-base grid-item col-span-3"></div>
+                  <div class="h-base grid-item col-span-3 hidden lg:block"></div>
                 {/if}
+                <div class="h-base grid-item col-span-3 lg:hidden"></div>
               {/each}
             </div>
 
@@ -270,15 +275,21 @@
         {/each}
       </section>
     {:else if view === 'list'}
-      <section class="calendar-page grid grid-cols-6 gap-x-base px-base">
+      <section class="calendar-page grid grid-cols-2 lg:grid-cols-6 gap-x-base px-base">
         {#each filteredEntries as entry, i (entry._id)}
           <CalendarListItemSmall {entry} {view} />
           {#if (i + 1) % 6 === 0}
-            <div class="h-base grid-item col-span-6"></div>
+            <div class="h-base grid-item col-span-6 hidden lg:block"></div>
+          {/if}
+          {#if (i + 1) % 2 === 0}
+            <div class="h-base grid-item col-span-2 lg:hidden"></div>
           {/if}
         {/each}
         {#if filteredEntries.length % 6 !== 0}
           <div class="h-base grid-item col-span-6"></div>
+        {/if}
+        {#if filteredEntries.length % 2 !== 0}
+          <div class="h-base grid-item col-span-2 lg:hidden"></div>
         {/if}
       </section>
     {/if}
@@ -392,11 +403,19 @@
     }
   }
 
-  .months-grid {
+  /* .months-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: var(--spacing-base);
-  }
+
+    :global(.month-item) {
+      grid-column: span 1 / span 1;
+
+      @media (min-width: 1024px) {
+        grid-column: span 3 / span 3;
+      }
+    }
+  } */
 
   /* .check-link styling is global (src/styles/global.css) */
 
@@ -414,6 +433,7 @@
     display: flex;
     align-items: center;
     gap: .7rem;
+    color: var(--color-red);
 
     :global(svg) {
       width: 1.8rem;

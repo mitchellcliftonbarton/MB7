@@ -74,6 +74,13 @@
     background-color: var(--color-grey-1);
     border: 1px solid var(--color-grey-2);
 
+    /* lift the hovered month above its siblings so its tooltip (trapped in
+       this stacking context by the base z-1) isn't painted over by a
+       neighboring month card */
+    &:has(:global(.day-cell:hover)) {
+      z-index: 2;
+    }
+
     &.is-empty {
       background-color: var(--color-white);
       border-color: var(--color-grey-1);

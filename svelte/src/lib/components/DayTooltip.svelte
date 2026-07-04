@@ -66,8 +66,12 @@
     z-index: 5000;
     width: 250px;
     background: var(--color-white);
-    display: flex;
     flex-direction: column;
+    display: none;
+
+    @media (min-width: 1024px) {
+      display: flex;
+    }
 
     &::before {
       content: '';

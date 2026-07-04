@@ -15,6 +15,10 @@
   }
 </script>
 
+<svelte:head>
+	<title>Mitchell Barton | Calendar</title>
+</svelte:head>
+
 <div class="panel-header">
   <!-- <div class="h-base grid-item close-row"></div>
 
