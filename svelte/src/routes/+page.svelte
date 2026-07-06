@@ -155,23 +155,27 @@
         {/each}
 
         <a href="/calendar" class="text-center block bg-yellow relative z-1">View Full Calendar</a>
+        <div class="h-base grid-item"></div>
       </div>
     {:else if mobileView === 'grid'}
-      <ul class="results-list col-span-4">
-        {#each homeData as entry, i (entry._id)}
-          <li>
-            <CalendarListItemSmall {entry} truncate />
-          </li>
-          {#if (i + 1) % 2 === 0}
+      <div class="col-span-4">
+        <ul class="results-list">
+          {#each homeData as entry, i (entry._id)}
+            <li>
+              <CalendarListItemSmall {entry} truncate />
+            </li>
+            {#if (i + 1) % 2 === 0}
+              <li class="h-base grid-item col-span-2"></li>
+            {/if}
+          {/each}
+          {#if homeData.length % 2 !== 0}
             <li class="h-base grid-item col-span-2"></li>
           {/if}
-        {/each}
-        {#if homeData.length % 2 !== 0}
-          <li class="h-base grid-item col-span-2"></li>
-        {/if}
-      </ul>
+        </ul>
 
-      <a href="/calendar" class="col-span-4 text-center block bg-yellow relative z-1">View Full Calendar</a>
+        <a href="/calendar" class="text-center block bg-yellow relative z-1">View Full Calendar</a>
+        <div class="h-base grid-item"></div>
+      </div>
     {/if}
   </div>
 </section>
