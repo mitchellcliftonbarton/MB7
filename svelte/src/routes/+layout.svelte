@@ -47,12 +47,12 @@
 
 	// handle navigation
 	beforeNavigate(() => {
-		loadingTimeout = setTimeout(() => NProgress.start(), 50);
-		// NProgress.start();
+		// loadingTimeout = setTimeout(() => NProgress.start(), 50);
+		NProgress.start();
 	});
 
 	afterNavigate(() => {
-		clearTimeout(loadingTimeout);
+		// clearTimeout(loadingTimeout);
 		NProgress.done();
 	});
 </script>
