@@ -112,19 +112,6 @@
 
 <div class="lightbox" class:open class:inited aria-hidden={!open}>
   <div class="lightbox-header">
-    <div class="header-arrows">
-      {#if isCarousel}
-        <button class="ctrl" onclick={prev}>
-          <span class="sr-only">Previous</span>
-          <ArrowLeft />
-        </button>
-        <button class="ctrl" onclick={next}>
-          <span class="sr-only">Next</span>
-          <ArrowRight />
-        </button>
-      {/if}
-    </div>
-
     {#if isCarousel}
       <p class="indexes">{currentIndex + 1} of {displayMedia.length}</p>
     {/if}
@@ -164,8 +151,14 @@
     <div class="lightbox-caption">{displayCaption}</div>
   {/if}
 
-  <div class="lightbox-grid" aria-hidden="true">
+  <div class="lightbox-grid lightbox-grid-desktop" aria-hidden="true">
     {#each Array(13) as _}
+      <div></div>
+    {/each}
+  </div>
+
+  <div class="lightbox-grid lightbox-grid-mobile" aria-hidden="true">
+    {#each Array(5) as _}
       <div></div>
     {/each}
   </div>
@@ -237,7 +230,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 1rem;
     min-height: 2.5rem;
   }
@@ -247,13 +240,11 @@
     font-size: var(--text-sm);
   }
 
-  .header-arrows {
-    display: flex;
-    gap: 0.5rem;
-  }
-
   .header-close {
     display: flex;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 
   .lightbox-body {
@@ -270,7 +261,7 @@
     margin-right: calc(-1 * var(--spacing-base));
   }
 
-  .side-arrow {
+  .ctrl.side-arrow {
     display: none;
     position: absolute;
     top: 50%;
@@ -325,6 +316,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0 var(--spacing-sm);
+
+    @media (min-width: 1024px) {
+      padding: 0;
+    }
   }
 
   .lightbox-body :global(.lightbox-image) {
@@ -354,25 +350,25 @@
     }
   }
 
-  /* Arrows sit in the header on small screens, and flank the image on desktop.
-     On desktop the counter is centered with the close pinned to the right. */
-  @media screen and (min-width: 1024px) {
-    .header-arrows {
-      display: none;
-    }
+  /* Match the site-wide bg-grid breakpoints (13 dividers / 12 cols desktop,
+     5 dividers / 4 cols mobile — see routes/+layout.svelte). */
+  .lightbox-grid-desktop {
+    display: none;
+  }
 
-    .side-arrow {
+  /* Arrows are hidden on mobile (swipe handles navigation there) and flank
+     the image on desktop. */
+  @media screen and (min-width: 1024px) {
+    .lightbox-grid-desktop {
       display: flex;
     }
 
-    .lightbox-header {
-      justify-content: center;
+    .lightbox-grid-mobile {
+      display: none;
     }
 
-    .header-close {
-      position: absolute;
-      right: 0;
-      top: 0;
+    .ctrl.side-arrow {
+      display: flex;
     }
   }
 </style>

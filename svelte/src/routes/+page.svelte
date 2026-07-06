@@ -98,7 +98,7 @@
   </div>
 
   <div class="lg:hidden grid grid-cols-4 gap-base px-base">
-    <div class="mobile-switcher col-span-4 flex gap-6">
+    <div class="mobile-switcher col-span-4 grid grid-cols-4 gap-base">
       <a href={mobileViewHref('featured')} class="check-link {mobileView === 'featured' ? 'active' : ''}">Featured Work</a>
       <a href={mobileViewHref('month')} class="check-link {mobileView === 'month' ? 'active' : ''}">Lately (Month)</a>
       <a href={mobileViewHref('grid')} class="check-link {mobileView === 'grid' ? 'active' : ''}">Lately (Grid)</a>

@@ -48,7 +48,7 @@
   }
 </script>
 
-<div class="month-item border rounded-[4rem] px-8 pt-12 pb-18 space-y-8 z-1" class:is-empty={activeDays.size === 0 && !isCurrentMonth}>
+<div class="month-item border rounded-[4rem] px-8 py-8 lg:py-12 space-y-8 z-1" class:is-empty={activeDays.size === 0 && !isCurrentMonth}>
   <p class="text-center text-red">{monthNames[month]} {year}</p>
 
   <div class="days grid grid-cols-7 gap-x-4 gap-y-4">

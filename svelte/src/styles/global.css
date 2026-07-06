@@ -38,6 +38,7 @@
 	/* --color-grid-bg: rgb(255 255 189 / 47%); */
 	--color-grid-bg-alt: rgba(94, 66, 197, 0.3);
 
+	--spacing-sm: 0.75rem;
 	--spacing-base: 1.5rem;
 
   --font-primary: 'OpenInto Mono', monospace;
