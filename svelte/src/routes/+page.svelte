@@ -4,6 +4,7 @@
   import { goto } from '$app/navigation';
   import Month from '$lib/components/Month.svelte';
   import CalendarListItem from '$lib/components/CalendarListItem.svelte';
+  import CalendarListItemSmall from '$lib/components/CalendarListItemSmall.svelte';
   import FeaturedItem from '$lib/components/FeaturedItem.svelte';
   import Lightbox from '$lib/components/Lightbox.svelte';
   import { LIGHTBOX_WORK_PARAM } from '$lib/stores/lightbox.js';
@@ -18,7 +19,25 @@
   let featuredWork = $derived(data.featuredWork);
 
   // derived
-  let view = $derived($page.url.searchParams.get('view') || 'month');
+  let rawView = $derived($page.url.searchParams.get('view'));
+  let view = $derived(rawView || 'month');
+
+  // mobile switcher: Featured Work / Lately (Month) / Lately (Grid).
+  // Shares the `view` param with desktop's Month/List toggle, but reads the
+  // raw (un-defaulted) param — an absent param, or desktop's 'list' value
+  // (which has no mobile UI), both fall through to Featured.
+  let mobileView = $derived(
+    rawView === 'month' || rawView === 'grid' ? rawView : 'featured'
+  );
+
+  // build an href for the mobile switcher, preserving every other search param
+  function mobileViewHref(target) {
+    const params = new URLSearchParams($page.url.searchParams);
+    if (target === 'featured') params.delete('view');
+    else params.set('view', target);
+    const qs = params.toString();
+    return qs ? `/?${qs}` : '/';
+  }
 
   // Lightbox open/close is driven by the ?work= URL param, resolved synchronously
   // (a $derived, not an $effect) so it renders during SSR and doesn't flash the
@@ -60,17 +79,17 @@
 	<title>Mitchell Barton</title>
 </svelte:head>
 
-<section class="page-header hidden">
+<section class="page-header">
   <div class="top-bar h-base grid-item"></div>
 
-  <div class="grid grid-cols-12 gap-base px-base">
+  <div class="hidden lg:grid grid-cols-12 gap-base px-base">
     <div class="col-span-6 col-start-2">
       <p>Featured work:</p>
     </div>
 
     <div class="lately col-span-5 flex items-center gap-4">
       <p>Lately:</p>
-      
+
       <div class="flex gap-6">
         <a href="/" class={view === 'month' ? 'active' : ''}>Month View</a>
         <a href="/?view=list" class={view === 'list' ? 'active' : ''}>List View</a>
@@ -78,11 +97,19 @@
     </div>
   </div>
 
+  <div class="lg:hidden grid grid-cols-4 gap-base px-base">
+    <div class="mobile-switcher col-span-4 flex gap-6">
+      <a href={mobileViewHref('featured')} class="check-link {mobileView === 'featured' ? 'active' : ''}">Featured Work</a>
+      <a href={mobileViewHref('month')} class="check-link {mobileView === 'month' ? 'active' : ''}">Lately (Month)</a>
+      <a href={mobileViewHref('grid')} class="check-link {mobileView === 'grid' ? 'active' : ''}">Lately (Grid)</a>
+    </div>
+  </div>
+
   <div class="h-base grid-item"></div>
 </section>
 
-<section class="main-content relative hidden">
-  <div class="grid grid-cols-12 gap-base px-base">
+<section class="main-content relative">
+  <div class="hidden lg:grid grid-cols-12 gap-base px-base">
     <div class="featured relative col-span-8 flex flex-col justify-end">
       <div class="featured-inner">
         {#each featuredWork as item, i}
@@ -111,6 +138,42 @@
       </div>
     </div>
   </div>
+
+  <div class="lg:hidden grid grid-cols-4 gap-base px-base">
+    {#if mobileView === 'featured'}
+      <div class="col-span-4">
+        {#each featuredWork as item, i}
+          <FeaturedItem {item} workId={workId(item, i)} />
+          <div class="h-base grid-item"></div>
+        {/each}
+      </div>
+    {:else if mobileView === 'month'}
+      <div class="col-span-4">
+        {#each lastSixMonths as { year, month }}
+          <Month {year} {month} entries={homeData} />
+          <div class="h-base grid-item"></div>
+        {/each}
+
+        <a href="/calendar" class="text-center block bg-yellow relative z-1">View Full Calendar</a>
+      </div>
+    {:else if mobileView === 'grid'}
+      <ul class="results-list col-span-4">
+        {#each homeData as entry, i (entry._id)}
+          <li>
+            <CalendarListItemSmall {entry} truncate />
+          </li>
+          {#if (i + 1) % 2 === 0}
+            <li class="h-base grid-item col-span-2"></li>
+          {/if}
+        {/each}
+        {#if homeData.length % 2 !== 0}
+          <li class="h-base grid-item col-span-2"></li>
+        {/if}
+      </ul>
+
+      <a href="/calendar" class="col-span-4 text-center block bg-yellow relative z-1">View Full Calendar</a>
+    {/if}
+  </div>
 </section>
 
 <Lightbox open={activeMedia.length > 0} media={activeMedia} caption={activeItem?.caption ?? ''} />
@@ -133,6 +196,13 @@
     :global(body.hide-announcements) & {
       display: none;
     }
+  }
+
+  .results-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-base);
   }
 
   .main-content {

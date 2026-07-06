@@ -171,19 +171,33 @@
                 <CalendarListItemSmall {entry} truncate imageWidth={600} />
               </li>
               {#if (i + 1) % 5 === 0}
-                <li class="h-base grid-item col-span-5"></li>
+                <li class="h-base grid-item col-span-5 hidden lg:block"></li>
+              {/if}
+              {#if (i + 1) % 2 === 0}
+                <li class="h-base grid-item col-span-2 lg:hidden"></li>
               {/if}
             {/each}
             {#if results().length % 5 !== 0}
-              <li class="h-base grid-item col-span-5"></li>
+              <li class="h-base grid-item col-span-5 hidden lg:block"></li>
+            {/if}
+            {#if results().length % 2 !== 0}
+              <li class="h-base grid-item col-span-2 lg:hidden"></li>
             {/if}
           </ul>
         {/if}
       </div>
       </div>
 
-      <div class="detail-panel-grid">
+      <div class="detail-panel-grid hidden lg:flex">
         <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+      </div>
+
+      <div class="detail-panel-grid flex lg:hidden">
         <div class="grid-item"></div>
         <div class="grid-item"></div>
         <div class="grid-item"></div>
@@ -218,7 +232,7 @@
   }
 
   .palette-panel {
-    width: calc(50% + var(--spacing-base));
+    width: calc(90% + var(--spacing-base));
     height: 75svh;
     background: white;
     z-index: 100;
@@ -226,6 +240,10 @@
     position: relative; /* containing block for the absolute grid overlay */
     transform: translate(0px, 0px);
     border-radius: 2rem;
+
+    @media (min-width: 1024px) {
+      width: calc(50% + var(--spacing-base));
+    }
   }
 
   .palette-scroll {
@@ -269,15 +287,18 @@
   .results-list {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-base);
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(5, 1fr);
+    }
   }
 
   .detail-panel-grid {
     position: absolute;
     inset: 0;
     z-index: 1; /* sits over the scrolling content */
-    display: flex;
     justify-content: space-between;
     pointer-events: none;
 

@@ -48,7 +48,7 @@
 </script>
 
 <div class="featured-item relative z-1 py-20 flex justify-center items-center">
-  <div class="w-[55%]">
+  <div class="w-[90%] lg:w-[55%]">
     {#if media.length}
       <div class="w-full space-y-3">
         <div class="aspect-4/5 relative bg-grey-1">
@@ -62,19 +62,19 @@
             </div>
           </div>
 
-          <div class="controls absolute bottom-0 right-0 flex flex-col items-center">
+          <div class="controls">
             <button onclick={expand}>
               <span class="sr-only">Expand</span>
               <Plus />
             </button>
 
             {#if isCarousel}
-              <button onclick={prev}>
+              <button onclick={prev} class="prev-next">
                 <span class="sr-only">Previous</span>
                 <ArrowLeft />
               </button>
 
-              <button onclick={next}>
+              <button onclick={next} class="prev-next">
                 <span class="sr-only">Next</span>
                 <ArrowRight />
               </button>
@@ -82,7 +82,7 @@
           </div>
         </div>
 
-        <div class="text-sm flex justify-between items-start gap-40">
+        <div class="text-sm flex justify-between items-start gap-16 lg:gap-40">
           {#if item.caption}
             <div class="text-left leading-[1.35]">{item.caption}</div>
           {/if}
@@ -112,7 +112,20 @@
   }
 
   .controls {
-    transform: translateX(100%);
+    transform: translateY(-100%);
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media (min-width: 1024px) {
+      transform: translateX(100%);
+      top: auto;
+      bottom: 0;
+      right: 0;
+    }
 
     button {
       width: 2.5rem;
@@ -132,6 +145,14 @@
 
       :global(.arrow-right-icon) {
         width: 1.3rem;
+      }
+
+      &.prev-next {
+        display: none;
+
+        @media (min-width: 1024px) {
+          display: flex;
+        }
       }
     }
   }

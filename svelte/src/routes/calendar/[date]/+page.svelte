@@ -20,13 +20,14 @@
 </svelte:head>
 
 <div class="panel-header">
-  <!-- <div class="h-base grid-item close-row"></div>
+  <div class="h-base grid-item close-row"></div>
 
-  <div class="flex justify-end px-base">
+  <div class="flex lg:hidden justify-center px-base">
     <a href={calendarBase} class="close-btn" data-sveltekit-noscroll>
       <X />
+      <span>Close</span>
     </a>
-  </div> -->
+  </div>
 
   <div class="h-base grid-item"></div>
 
@@ -81,6 +82,11 @@
     position: sticky;
     top: 0;
     z-index: 100;
+    background-color: var(--color-white);
+
+    @media (min-width: 1024px) {
+      background-color: transparent;
+    }
   }
 
   .prev-next-link {
@@ -93,7 +99,13 @@
     }
   }
 
-  :global(.close-btn svg) {
-    width: 1.8rem;
+  .close-btn {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+
+    :global(svg) {
+      width: 1.8rem;
+    }
   }
 </style>

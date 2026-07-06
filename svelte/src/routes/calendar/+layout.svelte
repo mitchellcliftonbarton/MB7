@@ -264,7 +264,9 @@
               {#each { length: monthCount(year) } as _, i}
                 <div class="month-block">
                   <Month {year} month={i} entries={filteredEntries} {view} />
-                  <div class="h-base grid-item col-span-3 lg:hidden"></div>
+                  {#if i > 0}
+                    <div class="h-base grid-item col-span-3 lg:hidden"></div>
+                  {/if}
                 </div>
                 {#if i % 3 === 2 && i < monthCount(year) - 1}
                   <div class="h-base grid-item col-span-3 hidden lg:block"></div>
@@ -354,12 +356,16 @@
     }
 
     .detail-panel {
-      width: calc(50% + var(--spacing-base));
+      width: calc(90% + var(--spacing-base));
       height: 100%;
       background: white;
       z-index: 100;
       position: relative; /* containing block for the absolute grid overlay */
       overflow: hidden; /* clip; the inner element does the scrolling */
+
+      @media (min-width: 1024px) {
+        width: 50%;
+      }
 
       /* &::before {
         content: '';

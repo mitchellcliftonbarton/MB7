@@ -24,7 +24,7 @@
       </div>
 
       {#if entry.text}
-        <div class="text rich-text w-3/4">
+        <div class="text rich-text w-full lg:w-3/4">
           <Portable value={entry.text} />
         </div>
       {/if}
@@ -40,7 +40,7 @@
             {:else if item.asset}
               {@const dim = item.asset.metadata?.dimensions}
               <div
-                class="img-frame flex items-center justify-center w-[80%] max-h-[80vh]"
+                class="img-frame flex items-center justify-center w-[95%] lg:w-[80%] lg:max-h-[80vh]"
                 style="aspect-ratio: {dim ? `${dim.width} / ${dim.height}` : '4 / 3'}"
               >
                 <Image {item} classes="w-auto h-auto max-w-full max-h-full object-contain shadow-lg" />
