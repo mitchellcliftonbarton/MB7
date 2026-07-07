@@ -20,6 +20,15 @@
 	// boot Google Analytics once, client-side
 	onMount(() => {
 		loadGoogleAnalytics(GA_MEASUREMENT_ID);
+
+		// If the page is restored from the browser's back/forward (bfcache) — e.g.
+		// after following an external link and hitting Back — SvelteKit doesn't run
+		// afterNavigate, so clear any progress bar that was frozen into the cache.
+		const handlePageShow = (e) => {
+			if (e.persisted) NProgress.done();
+		};
+		window.addEventListener('pageshow', handlePageShow);
+		return () => window.removeEventListener('pageshow', handlePageShow);
 	});
 
 	// mirrors the per-route <title> tags set in each route (see those files)
@@ -55,7 +64,11 @@
 	NProgress.configure({ showSpinner: false });
 
 	// handle navigation
-	beforeNavigate(() => {
+	beforeNavigate((navigation) => {
+		// Don't start the bar when leaving the app entirely (external link, full
+		// reload) — the page would be frozen into bfcache mid-animation and come
+		// back stuck, since afterNavigate never runs on a Back restore.
+		if (navigation.willUnload) return;
 		// loadingTimeout = setTimeout(() => NProgress.start(), 50);
 		NProgress.start();
 	});
