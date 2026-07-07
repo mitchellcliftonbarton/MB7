@@ -2,16 +2,9 @@
 
 @font-face {
 	font-family: 'OpenInto Mono';
-	src: url('/OpenintoMonoTest-400Regular.woff2') format('woff2');
+	src: url('/OpenintoMono-400Regular.woff2') format('woff2');
 	font-weight: 400;
 	font-style: normal;
-}
-
-@font-face {
-	font-family: 'OpenInto Mono';
-	src: url('/OpenintoMonoTest-400RegularItalic.woff2') format('woff2');
-	font-weight: 400;
-	font-style: italic;
 }
 
 @theme {

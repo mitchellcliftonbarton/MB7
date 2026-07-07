@@ -125,7 +125,7 @@
 
     <div class="grid grid-cols-4 lg:grid-cols-7 gap-base">
       <div class="col-span-4 lg:col-span-5 lg:col-start-2">
-        <p>This site was launched on July 3, 2026, and uses Open Into Mono, a typeface made by <a href="https://furniture.xyz" target="_blank" class="underline lg:hover:no-underline">Furniture.</a></p>
+        <p>This site was launched on July 7, 2026, and uses Open Into Mono, a typeface made by <a href="https://furniture.xyz" target="_blank" class="underline lg:hover:no-underline">Furniture.</a></p>
       </div>
     </div>
 
