@@ -20,7 +20,7 @@
 </svelte:head>
 
 <div class="panel-header">
-  <div class="h-base grid-item close-row"></div>
+  <div class="h-base grid-item close-row lg:hidden"></div>
 
   <div class="flex lg:hidden justify-center px-base">
     <a href={calendarBase} class="close-btn" data-sveltekit-noscroll>
