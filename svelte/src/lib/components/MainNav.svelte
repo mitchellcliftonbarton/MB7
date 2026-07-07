@@ -48,7 +48,7 @@
 
 			<div class="col-span-4 grid-item h-base lg:hidden"></div>
 
-			<EmailSignup />
+			<EmailSignup location="nav" />
     </div>
   {/if}
 </header>

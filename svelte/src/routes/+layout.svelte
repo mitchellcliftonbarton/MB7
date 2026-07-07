@@ -9,9 +9,18 @@
 	import CommandPalette from '$lib/components/CommandPalette.svelte';
 	import { commandPaletteOpen } from '$lib/stores/commandPalette.js';
 	import { siteSettings } from '$lib/stores/siteSettings.js';
+	import { onMount } from 'svelte';
+	import { loadGoogleAnalytics, trackEvent } from '$lib/utils/analytics.js';
+
+	const GA_MEASUREMENT_ID = 'G-5B6FEEPJDB';
 
 	// Props
 	let { children, data } = $props();
+
+	// boot Google Analytics once, client-side
+	onMount(() => {
+		loadGoogleAnalytics(GA_MEASUREMENT_ID);
+	});
 
 	// mirrors the per-route <title> tags set in each route (see those files)
 	const ogTitles = {
@@ -54,6 +63,13 @@
 	afterNavigate(() => {
 		// clearTimeout(loadingTimeout);
 		NProgress.done();
+
+		// manual SPA pageview — auto tracking is off (see analytics.js).
+		// afterNavigate also runs on initial load, so the first view is covered.
+		trackEvent('page_view', {
+			page_path: window.location.pathname + window.location.search,
+			page_title: document.title,
+		});
 	});
 </script>
 

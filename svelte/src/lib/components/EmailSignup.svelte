@@ -2,21 +2,33 @@
 	import ArrowRight from '$lib/components/ArrowRight.svelte';
 	import { PUBLIC_KIT_FORM_ID } from '$env/static/public';
 	import * as EmailValidator from 'email-validator';
+	import { trackEvent } from '$lib/utils/analytics.js';
 
-	let { label = 'Subscribe w/' } = $props();
+	let { label = 'Subscribe w/', location = 'unknown' } = $props();
 
 	let email = $state('');
 	// 'idle' | 'submitting' | 'success' | 'error'
 	let status = $state('idle');
 	let message = $state('');
 
+	// fire newsletter_focus once per instance (engagement, not every refocus)
+	let hasFocused = false;
+	function handleFocus() {
+		if (hasFocused) return;
+		hasFocused = true;
+		trackEvent('newsletter_focus', { location });
+	}
+
 	async function handleSubmit(event) {
 		event.preventDefault();
 		if (status === 'submitting') return;
 
+		trackEvent('newsletter_submit', { location });
+
 		if (!EmailValidator.validate(email.trim())) {
 			status = 'error';
 			message = 'Please enter a valid email.';
+			trackEvent('newsletter_error', { location });
 			return;
 		}
 
@@ -43,9 +55,11 @@
 			status = 'success';
 			message = 'Thank you! Check your inbox to confirm.';
 			email = '';
+			trackEvent('newsletter_success', { location });
 		} catch (err) {
 			status = 'error';
 			message = 'Something went wrong. Please try again.';
+			trackEvent('newsletter_error', { location });
 		}
 	}
 </script>
@@ -66,6 +80,7 @@
 				type="email"
 				name="email_address"
 				bind:value={email}
+				onfocus={handleFocus}
 				required
 				placeholder="Email Address"
 				class="w-full"

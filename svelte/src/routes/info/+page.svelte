@@ -189,7 +189,7 @@
 
     <div class="grid grid-cols-4 lg:grid-cols-7 gap-base">
       <div class="col-span-1 hidden lg:block"></div>
-      <EmailSignup label="" />
+      <EmailSignup label="" location="info" />
     </div>
 
     <div class="h-base grid-item"></div>
