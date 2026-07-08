@@ -8,6 +8,7 @@
   import FeaturedItem from '$lib/components/FeaturedItem.svelte';
   import Lightbox from '$lib/components/Lightbox.svelte';
   import { LIGHTBOX_WORK_PARAM } from '$lib/stores/lightbox.js';
+  import { todayParts } from '$lib/utils/date.js';
 
   // props
   let { data } = $props();
@@ -65,11 +66,11 @@
     }
   });
 
-  // last six months
+  // last six months (anchored to studio time so SSR and client agree)
   const lastSixMonths = (() => {
-    const now = new Date();
+    const today = todayParts();
     return Array.from({ length: 6 }, (_, i) => {
-      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const d = new Date(today.year, today.month - i, 1);
       return { year: d.getFullYear(), month: d.getMonth() };
     });
   })();

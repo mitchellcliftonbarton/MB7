@@ -1,5 +1,6 @@
 <script>
   import DayCell from './DayCell.svelte';
+  import { todayParts } from '$lib/utils/date.js';
 
   // month names
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -31,11 +32,8 @@
     }, new Map())
   );
 
-  // today
-  const now = new Date();
-  const todayYear = now.getFullYear();
-  const todayMonth = now.getMonth();
-  const todayDay = now.getDate();
+  // today (studio timezone, so SSR and client agree — see $lib/utils/date.js)
+  const { year: todayYear, month: todayMonth, day: todayDay } = todayParts();
 
   // the current month is never marked empty, even with no entries yet
   let isCurrentMonth = $derived(year === todayYear && month === todayMonth);

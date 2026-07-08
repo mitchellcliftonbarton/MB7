@@ -5,6 +5,7 @@
   import CalendarListItemSmall from '$lib/components/CalendarListItemSmall.svelte';
   import X from '$lib/components/X.svelte';
   import { lockScroll, unlockScroll } from '$lib/utils/scrollLock.js';
+  import { todayParts } from '$lib/utils/date.js';
 
   let { data, children } = $props();
 
@@ -83,9 +84,8 @@
       .sort((a, b) => b - a)
   );
 
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth();
+  // studio timezone, so SSR and client agree — see $lib/utils/date.js
+  const { year: currentYear, month: currentMonth } = todayParts();
 
   function monthCount(year) {
     return year === currentYear ? currentMonth + 1 : 12;
