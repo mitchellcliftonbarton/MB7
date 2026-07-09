@@ -36,21 +36,19 @@
 		</div>
 	</div>
 
-	{#if !page.url.pathname.startsWith('/calendar')}
-		<div class="grid-item h-base w-full"></div>
-	{/if}
+	<div class="grid-item h-base w-full"></div>
 
-  {#if page.url.pathname === '/'}
-    <div class="announcements relative z-1 px-base grid grid-cols-4 lg:grid-cols-12 lg:gap-base">
-      <div class="col-span-4 lg:col-span-9 bg-yellow-alt">
-        <p>New website launched, still uploading content. Please be nice to it :)</p>
-      </div>
+	<div class="announcements relative z-1 px-base grid grid-cols-4 lg:grid-cols-12 lg:gap-base">
+		<div class={`col-span-4 ${page.url.pathname === '/' ? 'lg:col-span-9' : 'lg:col-span-12'} bg-yellow-alt`}>
+			<p>New website launched, still uploading content. Please be nice to it :)</p>
+		</div>
 
-			<div class="col-span-4 grid-item h-base lg:hidden"></div>
+		<div class="col-span-4 grid-item h-base lg:hidden"></div>
 
+		{#if page.url.pathname === '/'}
 			<EmailSignup location="nav" />
-    </div>
-  {/if}
+		{/if}
+	</div>
 </header>
 
 <style>

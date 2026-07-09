@@ -11,6 +11,8 @@
 	<title>Mitchell Barton | Info</title>
 </svelte:head>
 
+<div class="h-base grid-item"></div>
+
 <section class="main-content relative pt-[50px] lg:pt-[100px] flex-1 grid grid-cols-4 lg:grid-cols-12 gap-16 lg:gap-base px-base">
   <div class="col-span-4 lg:col-span-5">
     <div class="grid grid-cols-4 lg:grid-cols-5 gap-base">
