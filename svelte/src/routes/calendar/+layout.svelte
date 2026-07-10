@@ -87,8 +87,10 @@
   // studio timezone, so SSR and client agree — see $lib/utils/date.js
   const { year: currentYear, month: currentMonth } = todayParts();
 
-  function monthCount(year) {
-    return year === currentYear ? currentMonth + 1 : 12;
+  // month indices for a year, newest first (current year stops at today's month)
+  function monthsFor(year) {
+    const last = year === currentYear ? currentMonth : 11;
+    return Array.from({ length: last + 1 }, (_, i) => last - i);
   }
 
   // readable URL slug from a tag title, e.g. "Bones/Fossils" -> "bones-fossils"
@@ -261,14 +263,14 @@
             <div class="h-base grid-item"></div>
 
             <div class="months-grid">
-              {#each { length: monthCount(year) } as _, i}
+              {#each monthsFor(year) as month, i (month)}
                 <div class="month-block">
-                  <Month {year} month={i} entries={filteredEntries} {view} />
-                  {#if i > 0}
+                  <Month {year} {month} entries={filteredEntries} {view} />
+                  {#if i < monthsFor(year).length - 1}
                     <div class="h-base grid-item col-span-3 lg:hidden"></div>
                   {/if}
                 </div>
-                {#if i % 3 === 2 && i < monthCount(year) - 1}
+                {#if i % 3 === 2 && i < monthsFor(year).length - 1}
                   <div class="h-base grid-item col-span-3 hidden lg:block"></div>
                 {/if}
               {/each}
@@ -413,7 +415,7 @@
 
   .months-grid {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
 
     @media (min-width: 1024px) {
       display: grid;
