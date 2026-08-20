@@ -1,6 +1,13 @@
 import { client } from '$lib/sanity/client.js';
 import { ogImageUrl, firstImage } from '$lib/utils/og.js';
 
+// Cache rendered pages on Vercel for an hour (ISR) so repeat traffic and
+// crawlers don't each pay for a fresh render. Client-side "today" logic
+// re-runs on hydration, so a cached page self-corrects after midnight.
+export const config = {
+	isr: { expiration: 3600 }
+};
+
 export const load = async () => {
 	const [latest, entries, featuredMedia] = await Promise.all([
 		client.fetch(

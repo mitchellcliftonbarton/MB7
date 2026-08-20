@@ -1,5 +1,12 @@
 import { client } from '$lib/sanity/client.js';
 
+// Same hourly ISR as the root layout, but `view` must be part of the cache
+// key — it changes the SSR output (month/list/grid). `work` (lightbox) is
+// excluded on purpose: it's a client-side overlay, SSR output is identical.
+export const config = {
+	isr: { expiration: 3600, allowQuery: ['view'] }
+};
+
 export const load = async () => {
 	const sixMonthsAgo = new Date();
 	sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
