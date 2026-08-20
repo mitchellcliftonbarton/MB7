@@ -19,7 +19,7 @@ export const load = async () => {
 					mediaType,
 					caption,
 					url,
-					asset->{ ..., metadata }
+					asset->{ _id, url, metadata { dimensions } }
 				}
 			}`,
 			{ cutoff }
@@ -30,7 +30,7 @@ export const load = async () => {
 				"slug": slug.current,
 				media[]{
 					_type,
-					asset->{ ..., metadata },
+					asset->{ _id, url, metadata { dimensions } },
 					"url": asset->url
 				}
 			}`

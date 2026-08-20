@@ -15,7 +15,7 @@ export const load = async () => {
 					mediaType,
 					caption,
 					url,
-					asset->{ ..., metadata }
+					asset->{ _id, url, metadata { dimensions } }
 				}
 			}`
 		),
