@@ -292,7 +292,7 @@
           {/if}
         {/each}
         {#if filteredEntries.length % 6 !== 0}
-          <div class="h-base grid-item col-span-6"></div>
+          <div class="h-base grid-item col-span-6 hidden lg:block"></div>
         {/if}
         {#if filteredEntries.length % 2 !== 0}
           <div class="h-base grid-item col-span-2 lg:hidden"></div>
