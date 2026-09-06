@@ -22,7 +22,7 @@
   ];
 
   let view = $derived($page.url.searchParams.get('view') || 'month');
-  let isDetailOpen = $derived($page.route.id === '/calendar/[date]');
+  let isDetailOpen = $derived($page.route.id === '/calendar/[date=date]');
 
   // overlay tint behind the detail panel, by the viewed entry's type (35%).
   // Derived from the same palette vars used for the category dots so the tint

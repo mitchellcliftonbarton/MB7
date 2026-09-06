@@ -1,5 +1,13 @@
 import { client } from '$lib/sanity/client.js';
 
+// Same daily ISR as the root layout, with `view` (month/list) in the cache
+// key since it changes SSR output. Filter params (type, medium, year…) are
+// deliberately left out: they're applied client-side from the URL on
+// hydration, and caching every combination would multiply ISR writes.
+export const config = {
+	isr: { expiration: 86400, allowQuery: ['view'] }
+};
+
 export const load = async () => {
 	const [entries, allMediums, allContent] = await Promise.all([
 		client.fetch(

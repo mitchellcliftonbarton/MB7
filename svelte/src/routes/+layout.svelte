@@ -35,7 +35,7 @@
 	const ogTitles = {
 		'/': 'Mitchell Barton',
 		'/calendar': 'Mitchell Barton | Calendar',
-		'/calendar/[date]': 'Mitchell Barton | Calendar',
+		'/calendar/[date=date]': 'Mitchell Barton | Calendar',
 		'/info': 'Mitchell Barton | Info',
 	};
 	let ogTitle = $derived(ogTitles[page.route.id] ?? 'Mitchell Barton');

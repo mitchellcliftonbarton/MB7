@@ -1,11 +1,17 @@
 import { client } from '$lib/sanity/client.js';
 import { ogImageUrl, firstImage } from '$lib/utils/og.js';
 
-// Cache rendered pages on Vercel for an hour (ISR) so repeat traffic and
+// Cache rendered pages on Vercel for a day (ISR) so repeat traffic and
 // crawlers don't each pay for a fresh render. Client-side "today" logic
 // re-runs on hydration, so a cached page self-corrects after midnight.
+//
+// `allowQuery: []` means query strings don't create separate cache entries —
+// without it every unique `?foo=bar` a bot appends is a fresh render and an
+// ISR write. Routes whose SSR output depends on a param override this.
+// Note ISR config is replaced, not merged, so overrides must restate
+// `expiration`.
 export const config = {
-	isr: { expiration: 3600 }
+	isr: { expiration: 86400, allowQuery: [] }
 };
 
 export const load = async () => {
